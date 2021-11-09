@@ -15,7 +15,12 @@ function searchProduct (name) {
     return axios.get(`${BASE_URL}/products?name=${name}`);
 }
 
+function getProductsList (order) {
+    return axios.get(`${BASE_URL}/products`);
+}
+
 export {
     getCartQuantity,
     searchProduct,
+    getProductsList,
 }
