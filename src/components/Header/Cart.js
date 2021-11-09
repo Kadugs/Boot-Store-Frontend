@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { RiShoppingCartLine as CartIcon } from 'react-icons/ri';
 import { getCartQuantity } from '../../services/bootstore.js';
 
 export default function Cart ({ token }) {
     const [quantity, setQuantity] = useState(0);
+    const history = useHistory();
     
     useEffect(() => {
         getCartQuantity(token)
@@ -16,7 +18,7 @@ export default function Cart ({ token }) {
     }, [quantity]);
 
     return (
-        <CartBox>
+        <CartBox onClick={() => history.push('/cart')}>
             <CartIcon style={{ fontSize: '50px' }}/>
             <CartQuantity>
                 {quantity}

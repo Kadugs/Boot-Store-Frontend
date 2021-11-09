@@ -1,18 +1,20 @@
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import Cart from './Cart.js';
 import Search from './Search.js';
 import { FaRegUserCircle as UserIcon } from 'react-icons/fa';
 
 export default function Header () {
     const user = JSON.parse(localStorage.getItem("user"));
+    const history = useHistory();
 
     return (
         <HeaderBar>
-            <Logo>
+            <Logo onClick={() => history.push('/')}>
                 bootstore
             </Logo>
             <Search />
-            <Login>
+            <Login onClick={() => user ? null : history.push('/sign-in')}>
                 <UserIcon style={{ fontSize: '45px' }} />
                 <p>{user ? `olá, ${user.name.split(' ')[0]}` : 'faça seu login ou cadastre-se'}</p>
             </Login>
