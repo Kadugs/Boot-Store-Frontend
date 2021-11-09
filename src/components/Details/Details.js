@@ -1,5 +1,10 @@
 import StarRatings from "react-star-ratings";
-import { IoCartOutline } from "react-icons/io5";
+import { useState } from "react";
+import {
+  IoCartOutline,
+  IoChevronDownOutline,
+  IoChevronUpOutline,
+} from "react-icons/io5";
 import {
   ContainerDetails,
   MainDetails,
@@ -8,6 +13,8 @@ import {
   Price,
   Img,
   Brand,
+  CartButtonArea,
+  ItemQuantity,
   Button,
 } from "./ContainerDetails";
 
@@ -26,6 +33,7 @@ export default function Details() {
   function addToCart() {}
 
   const { name, description, value, image, brand } = mockProduct;
+  const [quantityValue, setQuantityValue] = useState(1);
   return (
     <ContainerDetails>
       <MainDetails>
@@ -42,11 +50,29 @@ export default function Details() {
           <Price>R$ {value.toFixed(2)}</Price>
           <Description>{description}</Description>
           <Brand>Marca: {brand}</Brand>
+          <CartButtonArea>
+            <Button onCLick={addToCart}>
+              <IoCartOutline fontSize="20px" />
+              Adicionar ao carrinho
+            </Button>
+            <span>Quantidade:</span>
+            <ItemQuantity>
+              <IoChevronUpOutline
+                className="arrows"
+                onClick={() => setQuantityValue(quantityValue + 1)}
+              />
+              <span>{quantityValue}</span>
+              <IoChevronDownOutline
+                className="arrows"
+                onClick={
+                  quantityValue > 0
+                    ? () => setQuantityValue(quantityValue - 1)
+                    : null
+                }
+              />
+            </ItemQuantity>
+          </CartButtonArea>
         </div>
-        <Button onCLick={addToCart}>
-          <IoCartOutline fontSize="20px" />
-          Adicionar ao carrinho
-        </Button>
       </MainDetails>
     </ContainerDetails>
   );
