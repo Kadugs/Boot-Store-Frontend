@@ -16,7 +16,7 @@ export default function Header () {
                 <UserIcon style={{ fontSize: '45px' }} />
                 <p>{user ? `olá, ${user.name.split(' ')[0]}` : 'faça seu login ou cadastre-se'}</p>
             </Login>
-            <Cart />
+            <Cart token={user?.token} />
         </HeaderBar>
     );
 }
