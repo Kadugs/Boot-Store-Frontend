@@ -1,13 +1,16 @@
+import StarRatings from "react-star-ratings";
+import { IoCartOutline } from "react-icons/io5";
 import {
   ContainerDetails,
   MainDetails,
   Title,
-  Quantity,
   Description,
   Price,
   Img,
   Brand,
+  Button,
 } from "./ContainerDetails";
+
 const mockProduct = {
   name: "playstation 5",
   quantity: 200,
@@ -20,18 +23,30 @@ const mockProduct = {
   category: "console",
 };
 export default function Details() {
-  const { name, quantity, description, value, image, brand } = mockProduct;
+  function addToCart() {}
+
+  const { name, description, value, image, brand } = mockProduct;
   return (
     <ContainerDetails>
       <MainDetails>
         <Img src={image} />
         <div>
           <Title>{name}</Title>
-          <Quantity>Disponíveis: {quantity}</Quantity>
-          <Description>{description}</Description>
+          <StarRatings
+            rating={4.5}
+            starRatedColor="rgb(247, 210, 0)"
+            name="rating"
+            starDimension="20px"
+            starSpacing="1px"
+          />
           <Price>R$ {value.toFixed(2)}</Price>
+          <Description>{description}</Description>
           <Brand>Marca: {brand}</Brand>
         </div>
+        <Button onCLick={addToCart}>
+          <IoCartOutline fontSize="20px" />
+          Adicionar ao carrinho
+        </Button>
       </MainDetails>
     </ContainerDetails>
   );
