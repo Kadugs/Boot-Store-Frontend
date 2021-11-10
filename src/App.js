@@ -6,7 +6,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/">
+        <Route path="/products/:id">
           <Details />
         </Route>
       </Switch>

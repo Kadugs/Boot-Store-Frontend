@@ -1,5 +1,7 @@
 import StarRatings from "react-star-ratings";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { getProductDetails } from "../../services/API";
 import {
   IoCartOutline,
   IoChevronDownOutline,
@@ -16,30 +18,62 @@ import {
   CartButtonArea,
   ItemQuantity,
   Button,
+  Error,
 } from "./ContainerDetails";
 
-const mockProduct = {
-  name: "playstation 5",
-  quantity: 200,
-  description:
-    "Parafusadeira / Furadeira a Bateria 12V Carregador Bivolt Automático pfv 012 vonder Indicada para soltar e apertar parafusos de até 6 mm de diâmetro e fazer furos em madeiras ou metais. Possui regulagem para 18 posições de torque ",
-  value: 8000,
-  image:
-    "https://files.tecnoblog.net/wp-content/uploads/2020/11/playstation_5_produto-700x700.png",
-  brand: "Sony",
-  category: "console",
-};
 export default function Details() {
-  function addToCart() {}
-
-  const { name, description, value, image, brand } = mockProduct;
+  const { id } = useParams();
+  const [productInfos, setProductInfos] = useState({});
   const [quantityValue, setQuantityValue] = useState(1);
+  const [isInCart, setIsInCart] = useState(false);
+  function addToCart() {
+    const cartInfos = {
+      code: productInfos.code,
+      quantity: quantityValue,
+    };
+    const storagedItems = JSON.parse(localStorage.getItem("@cartItems"));
+    if (!storagedItems) {
+      localStorage.setItem("@cartItems", JSON.stringify([cartInfos]));
+    } else if (storagedItems.some((item) => item.code === cartInfos.code)) {
+      const indexOfEquals = storagedItems.findIndex(
+        (item) => item.code === cartInfos.code
+      );
+      storagedItems[indexOfEquals].quantity += quantityValue;
+      localStorage.setItem("@cartItems", JSON.stringify(storagedItems));
+    } else {
+      localStorage.setItem(
+        "@cartItems",
+        JSON.stringify([...storagedItems, cartInfos])
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (
+      JSON.parse(localStorage.getItem("@cartItems")).some(
+        (item) => item.code === productInfos.code
+      )
+    ) {
+      setIsInCart(true);
+    }
+    getProductDetails(id)
+      .then((res) => {
+        setProductInfos(res.data);
+      })
+      .catch((err) => {
+        ////////////////////////////////// ALTERAR ESSE CATCH ////////////////////////////////////////
+        console.log(err);
+      });
+  });
+  if (productInfos.name === undefined) {
+    return <Error>Desculpe, produto não encontrado :(</Error>;
+  }
   return (
     <ContainerDetails>
       <MainDetails>
-        <Img src={image} />
+        <Img src={productInfos.image} />
         <div>
-          <Title>{name}</Title>
+          <Title>{productInfos.name}</Title>
           <StarRatings
             rating={4.5}
             starRatedColor="rgb(247, 210, 0)"
@@ -47,11 +81,11 @@ export default function Details() {
             starDimension="20px"
             starSpacing="1px"
           />
-          <Price>R$ {value.toFixed(2)}</Price>
-          <Description>{description}</Description>
-          <Brand>Marca: {brand}</Brand>
+          <Price>R$ {Number(productInfos.value).toFixed(2)}</Price>
+          <Description>{productInfos.description}</Description>
+          <Brand>Marca: {productInfos.brand}</Brand>
           <CartButtonArea>
-            <Button onCLick={addToCart}>
+            <Button onClick={addToCart}>
               <IoCartOutline fontSize="20px" />
               Adicionar ao carrinho
             </Button>
@@ -64,14 +98,20 @@ export default function Details() {
               <span>{quantityValue}</span>
               <IoChevronDownOutline
                 className="arrows"
+                filter={quantityValue === 1 ? "brightness(2)" : "none"}
                 onClick={
-                  quantityValue > 0
+                  quantityValue > 1
                     ? () => setQuantityValue(quantityValue - 1)
                     : null
                 }
               />
             </ItemQuantity>
           </CartButtonArea>
+          {isInCart ? (
+            <Link to="/Cart" className="link-to-cart">
+              Item adicionado ao Carrinho!
+            </Link>
+          ) : null}
         </div>
       </MainDetails>
     </ContainerDetails>

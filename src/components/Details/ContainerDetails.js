@@ -6,6 +6,9 @@ const ContainerDetails = styled.div`
   justify-content: center;
   margin-top: 20px;
   color: rgb(91, 91, 91);
+  .link-to-cart {
+    color: gray;
+  }
 `;
 const MainDetails = styled.div`
   position: relative;
@@ -93,6 +96,10 @@ const ItemQuantity = styled.div`
   justify-content: center;
   margin: 0 !important;
 `;
+const Error = styled.span`
+  font-size: 20px;
+  margin: auto;
+`;
 
 export {
   ContainerDetails,
@@ -105,4 +112,5 @@ export {
   CartButtonArea,
   ItemQuantity,
   Button,
+  Error,
 };
