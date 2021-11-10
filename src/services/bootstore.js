@@ -16,7 +16,7 @@ function searchProduct (name) {
 }
 
 function getProductsList (order) {
-    return axios.get(`${BASE_URL}/products`);
+    return axios.get(`${BASE_URL}/products?orderby=${order}`);
 }
 
 export {
