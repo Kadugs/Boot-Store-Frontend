@@ -27,7 +27,7 @@ export default function ProductsList () {
             <Header />
             <Container>
                 <ProductsGrid>
-                    {products.map((product) => <Product key={product.code} product={product} rating={ratings.find((rating) => rating.productId === product.id)} />)}
+                    {products.map((product) => <Product key={product.code} product={product} rating={ratings.find((rating) => rating.productCode === product.code)} />)}
                 </ProductsGrid>
             </Container>
         </>
