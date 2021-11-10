@@ -31,18 +31,18 @@ export default function Details() {
       code: productInfos.code,
       quantity: quantityValue,
     };
-    const storagedItems = JSON.parse(localStorage.getItem("@cartItems"));
+    const storagedItems = JSON.parse(localStorage.getItem("cart"));
     if (!storagedItems) {
-      localStorage.setItem("@cartItems", JSON.stringify([cartInfos]));
+      localStorage.setItem("cart", JSON.stringify([cartInfos]));
     } else if (storagedItems.some((item) => item.code === cartInfos.code)) {
       const indexOfEquals = storagedItems.findIndex(
         (item) => item.code === cartInfos.code
       );
       storagedItems[indexOfEquals].quantity += quantityValue;
-      localStorage.setItem("@cartItems", JSON.stringify(storagedItems));
+      localStorage.setItem("cart", JSON.stringify(storagedItems));
     } else {
       localStorage.setItem(
-        "@cartItems",
+        "cart",
         JSON.stringify([...storagedItems, cartInfos])
       );
     }
@@ -50,7 +50,7 @@ export default function Details() {
 
   useEffect(() => {
     if (
-      JSON.parse(localStorage.getItem("@cartItems")).some(
+      JSON.parse(localStorage.getItem("cart")).some(
         (item) => item.code === productInfos.code
       )
     ) {
