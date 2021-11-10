@@ -1,7 +1,7 @@
 import StarRatings from "react-star-ratings";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getProductDetails } from "../../services/API";
+import { getProductDetails } from "../../services/bootstore";
 import {
   IoCartOutline,
   IoChevronDownOutline,
@@ -64,7 +64,7 @@ export default function Details() {
         ////////////////////////////////// ALTERAR ESSE CATCH ////////////////////////////////////////
         console.log(err);
       });
-  });
+  }, [setIsInCart, id]);
   if (productInfos.name === undefined) {
     return <Error>Desculpe, produto não encontrado :(</Error>;
   }
