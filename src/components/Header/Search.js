@@ -59,7 +59,7 @@ export default function Search () {
                 <SearchIcon onClick={(event) => searching ? redirectSearch(event) : setSearching(true)}/>
                 {showingResults && searching ? (<SearchResultsList>
                     <h1>Você está procurando por:</h1>
-                    {searchResult.map((result) => <ProductName to={`/products/${result.id}`}>{result.name}</ProductName>)}
+                    {searchResult.map((result) => <ProductName to={`/products/${result.code}`}>{result.name}</ProductName>)}
                 </SearchResultsList>) : ('')}
             </SearchForm>
             {searching ? <SearchingBackground onClick={() => setSearching(false)} /> : ('')}

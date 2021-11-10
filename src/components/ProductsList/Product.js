@@ -11,7 +11,7 @@ export default function Product ({ product, rating }) {
     }
 
     return (
-        <ProductBox onClick={() => history.push(`/products/${product?.id}`)}>
+        <ProductBox onClick={() => history.push(`/products/${product?.code}`)}>
             <ImageBox>
                 <img src={product?.image} alt={product?.name} />
             </ImageBox>

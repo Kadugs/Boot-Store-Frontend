@@ -23,8 +23,8 @@ function getRatings () {
     return axios.get(`${BASE_URL}/ratings`);
 }
 
-function getProductDetails(id) {
-  return axios.get(`${BASE_URL}/product/${id}`);
+function getProductDetails(code) {
+  return axios.get(`${BASE_URL}/product/${code}`);
 }
 
 export {
