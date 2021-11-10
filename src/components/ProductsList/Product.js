@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import { useHistory } from 'react-router-dom';
+import { BsFillCartPlusFill as AddToCartIcon} from 'react-icons/bs';
 
 export default function Product ({ product, rating }) {
     const history = useHistory();
+
+    function addToCart (event) {
+        event.stopPropagation();
+    }
 
     return (
         <ProductBox onClick={() => history.push(`/products/${product?.id}`)}>
@@ -23,6 +28,9 @@ export default function Product ({ product, rating }) {
                 <span>{rating?.quantity || 0} avaliações</span>
             </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
+            <AddButton onClick={addToCart}>
+                <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />
+            </AddButton>
         </ProductBox>
     );
 }
@@ -31,6 +39,7 @@ const ProductBox = styled.li`
     border-right: 1px solid #E5E5E5;
     padding: 25px 20px;
     cursor: pointer;
+    position: relative;
 `;
 
 const ImageBox = styled.div`
@@ -69,4 +78,23 @@ const Price = styled.h3`
     font-weight: 700;
     color: #333333;
     margin-top: 20px;
+`;
+
+const AddButton = styled.button`
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    background-color: #F80032;
+    position: absolute;
+    bottom: 25px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    :hover {
+        filter: brightness(0.9);
+    }
 `;
