@@ -19,8 +19,13 @@ function getProductsList (order) {
     return axios.get(`${BASE_URL}/products?orderby=${order}`);
 }
 
+function getRatings () {
+    return axios.get(`${BASE_URL}/ratings`);
+}
+
 export {
     getCartQuantity,
     searchProduct,
     getProductsList,
+    getRatings,
 }
