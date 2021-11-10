@@ -22,7 +22,7 @@ import {
 } from "./ContainerDetails";
 
 export default function Details() {
-  const { id } = useParams();
+  const { code } = useParams();
   const [productInfos, setProductInfos] = useState({});
   const [quantityValue, setQuantityValue] = useState(1);
   const [isInCart, setIsInCart] = useState(false);
@@ -34,7 +34,7 @@ export default function Details() {
     const storagedItems = JSON.parse(localStorage.getItem("cart"));
     if (!storagedItems) {
       localStorage.setItem("cart", JSON.stringify([cartInfos]));
-    } else if (storagedItems.some((item) => item.code === cartInfos.code)) {
+    } else if (storagedItems?.some((item) => item.code === cartInfos.code)) {
       const indexOfEquals = storagedItems.findIndex(
         (item) => item.code === cartInfos.code
       );
@@ -50,13 +50,13 @@ export default function Details() {
 
   useEffect(() => {
     if (
-      JSON.parse(localStorage.getItem("cart")).some(
+      JSON.parse(localStorage.getItem("cart"))?.some(
         (item) => item.code === productInfos.code
       )
     ) {
       setIsInCart(true);
     }
-    getProductDetails(id)
+    getProductDetails(code)
       .then((res) => {
         setProductInfos(res.data);
       })
@@ -64,7 +64,7 @@ export default function Details() {
         ////////////////////////////////// ALTERAR ESSE CATCH ////////////////////////////////////////
         console.log(err);
       });
-  }, [setIsInCart, id]);
+  }, [setIsInCart, code]);
   if (productInfos.name === undefined) {
     return <Error>Desculpe, produto não encontrado :(</Error>;
   }

@@ -14,7 +14,23 @@ function getCartQuantity(token) {
 function searchProduct(name) {
   return axios.get(`${BASE_URL}/products?name=${name}`);
 }
-function getProductDetails(id) {
-  return axios.get(`${BASE_URL}/product/${id}`);
+
+function getProductsList (order) {
+    return axios.get(`${BASE_URL}/products?orderby=${order}`);
 }
-export { getCartQuantity, searchProduct, getProductDetails };
+
+function getRatings () {
+    return axios.get(`${BASE_URL}/ratings`);
+}
+
+function getProductDetails(code) {
+  return axios.get(`${BASE_URL}/product/${code}`);
+}
+
+export {
+    getCartQuantity,
+    searchProduct,
+    getProductsList,
+    getRatings,
+    getProductDetails,
+}

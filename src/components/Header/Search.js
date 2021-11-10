@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 import { searchProduct } from '../../services/bootstore.js';
@@ -11,6 +11,22 @@ export default function Search () {
     const [searching, setSearching] = useState(false);
     const [showingResults, setShowingResults] = useState(false);
     const history = useHistory();
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Escape') {
+            setSearching(false);
+            window.onscroll = () => {};
+            document.activeElement.blur();
+        }
+    };
+    
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     function search (event) {
         setSearchQuery(event.target.value);
@@ -43,7 +59,7 @@ export default function Search () {
                 <SearchIcon onClick={(event) => searching ? redirectSearch(event) : setSearching(true)}/>
                 {showingResults && searching ? (<SearchResultsList>
                     <h1>Você está procurando por:</h1>
-                    {searchResult.map((result) => <ProductName to={`/products/${result.id}`}>{result.name}</ProductName>)}
+                    {searchResult.map((result) => <ProductName to={`/products/${result.code}`}>{result.name}</ProductName>)}
                 </SearchResultsList>) : ('')}
             </SearchForm>
             {searching ? <SearchingBackground onClick={() => setSearching(false)} /> : ('')}
@@ -83,6 +99,7 @@ const SearchResultsList = styled.div`
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
     padding: 10px 10px 0px;
 
     h1 {
@@ -108,7 +125,7 @@ const SearchingBackground = styled.div`
     height: 100vh;
     top: 0;
     left: 0;
-    position: absolute;
+    position: fixed;
     background-color: black;
     opacity: 0.6;
     overflow: hidden;
