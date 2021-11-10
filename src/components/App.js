@@ -8,7 +8,7 @@ export default function App() {
       <GlobalStyle />
       <Switch>
         <Route path="/" component={ProductsList} exact />
-        <Redirect to="/" />
+        {/* <Redirect to="/" /> */}
         <Route exact path="/cart">
           <Cart />
         </Route>
