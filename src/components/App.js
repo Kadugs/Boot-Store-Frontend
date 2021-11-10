@@ -10,7 +10,7 @@ export default function App() {
       <GlobalStyle />
       <Switch>
         <Route path="/" component={ProductsList} exact />
-        <Route exact path="/products/:id">
+        <Route exact path="/products/:code">
           <Header />
           <Details />
         </Route>
