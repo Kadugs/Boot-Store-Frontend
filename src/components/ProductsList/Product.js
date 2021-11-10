@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import StarRatings from 'react-star-ratings';
 import { useHistory } from 'react-router-dom';
 
-export default function Product ({ product }) {
+export default function Product ({ product, rating }) {
     const history = useHistory();
 
     return (
@@ -10,6 +11,17 @@ export default function Product ({ product }) {
                 <img src={product?.image} alt={product?.name} />
             </ImageBox>
             <Name>{product?.name}</Name>
+            <Rating>
+                <StarRatings 
+                    rating={rating?.average || 0} 
+                    numberOfStars={5} 
+                    starRatedColor='#F2C832' 
+                    starEmptyColor='#CCCCCC' 
+                    starDimension='15px' 
+                    starSpacing='1px'
+                />
+                <span>{rating?.quantity || 0} avaliações</span>
+            </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
         </ProductBox>
     );
@@ -39,11 +51,22 @@ const Name = styled.h2`
     height: 30px;
     font-size: 14px;
     color: #666666;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+`;
+
+const Rating = styled.div`
+    width: 100%;
+
+    & span {
+        font-size: 12px;
+        margin-left: 3px;
+        color: #CCCCCC;
+    }
 `;
 
 const Price = styled.h3`
     font-size: 20px;
     font-weight: 700;
     color: #333333;
+    margin-top: 20px;
 `;
