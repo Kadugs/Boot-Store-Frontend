@@ -1,13 +1,35 @@
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext.js';
+import CartContext from '../../contexts/CartContext.js';
+import { addToCart } from '../../services/bootstore.js';
 import { useHistory } from 'react-router-dom';
 import { BsFillCartPlusFill as AddToCartIcon} from 'react-icons/bs';
 
 export default function Product ({ product, rating }) {
+    const { user } = useContext(UserContext);
+    const { cart, setCart } = useContext(CartContext);
     const history = useHistory();
 
-    function addToCart (event) {
+    function addToProductCart (event) {
         event.stopPropagation();
+
+        const body = {
+            code: Number(product.code),
+            quantity: 1,
+        }
+
+        const newCart = cart ? [...cart, body] : [body];
+
+        if (user?.token) {
+            addToCart(user.token, body)
+                .then(() => setCart(newCart))
+                .catch(() => alert("Ocorreu algum erro! Tente novamente!"));
+        } else {
+            setCart(newCart);
+            localStorage.setItem('cart',JSON.stringify(newCart));
+        }
     }
 
     return (
@@ -28,7 +50,7 @@ export default function Product ({ product, rating }) {
                 <span>{rating?.quantity || 0} avaliações</span>
             </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
-            <AddButton onClick={addToCart}>
+            <AddButton onClick={addToProductCart}>
                 <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />
             </AddButton>
         </ProductBox>
