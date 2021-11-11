@@ -1,11 +1,13 @@
 import styled from 'styled-components';
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import UserContext from '../../contexts/UserContext.js';
 import Cart from './Cart.js';
 import Search from './Search.js';
 import { FaRegUserCircle as UserIcon } from 'react-icons/fa';
 
 export default function Header () {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const { user } = useContext(UserContext);
     const history = useHistory();
 
     return (
@@ -18,7 +20,7 @@ export default function Header () {
                 <UserIcon style={{ fontSize: '45px' }} />
                 <p>{user ? `olá, ${user.name.split(' ')[0]}` : 'faça seu login ou cadastre-se'}</p>
             </Login>
-            <Cart token={user?.token} />
+            <Cart />
         </HeaderBar>
     );
 }
