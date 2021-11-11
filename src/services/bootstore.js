@@ -19,8 +19,18 @@ function getCartQuantity(token) {
 function searchProduct(name) {
   return axios.get(`${BASE_URL}/products?name=${name}`);
 }
+
+function getProductDetails(id) {
+  return axios.get(`${BASE_URL}/product/${id}`);
+}
+
 function listCartProductsForVisitor(params) {
   return axios.get(`${BASE_URL}/products/cart`, params);
 }
 
-export { getCartQuantity, searchProduct, listCartProductsForVisitor };
+export {
+  getCartQuantity,
+  searchProduct,
+  getProductDetails,
+  listCartProductsForVisitor,
+};
