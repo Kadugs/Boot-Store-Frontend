@@ -1,14 +1,67 @@
-export default function ItemCart({ cartInfos }) {
-  const { productCode, quantity } = cartInfos;
-
+import { ItemImg } from "./ContainerCart";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import {
+  IoChevronBackOutline,
+  IoChevronForwardOutline,
+  IoTrashBinOutline,
+} from "react-icons/io5";
+export default function ItemCart({ cartIndex, itemInfos }) {
+  const { name, image, value } = itemInfos;
+  const storagedItems = JSON.parse(localStorage.getItem("cart"));
+  const history = useHistory();
+  const [quantityValue, setQuantityValue] = useState(
+    storagedItems[cartIndex]?.quantity
+  );
+  function deleteItem() {
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(storagedItems.filter((item, index) => index !== cartIndex))
+    );
+    setQuantityValue(0);
+  }
+  useEffect(() => {
+    if (!!storagedItems[cartIndex]) {
+      storagedItems[cartIndex].quantity = quantityValue;
+    }
+    localStorage.setItem("cart", JSON.stringify(storagedItems));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantityValue]);
+  if (storagedItems[cartIndex]?.quantity === undefined) return <></>;
   return (
     <tr>
-      <td>
-        <img src="https://www.google.com.br/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png" />
-        <p>oi</p>
+      <td
+        className="product-td"
+        onClick={() =>
+          history.push(`/product/${storagedItems[cartIndex].code}`)
+        }
+      >
+        <ItemImg src={image} alt="dog" />
+        <p>{name}</p>
       </td>
-      <td>1</td>
-      <td>R$300</td>
+      <td className="qtd-td">
+        <IoChevronBackOutline
+          cursor="pointer"
+          onClick={
+            quantityValue > 1
+              ? () => {
+                  setQuantityValue(quantityValue - 1);
+                }
+              : null
+          }
+        />
+        {quantityValue}
+        <IoChevronForwardOutline
+          cursor="pointer"
+          onClick={() => {
+            setQuantityValue(quantityValue + 1);
+          }}
+        />
+      </td>
+      <td className="price-td">R$ {value * quantityValue}</td>
+      <td className="delete-td">
+        <IoTrashBinOutline onClick={deleteItem} cursor="pointer" />
+      </td>
     </tr>
   );
 }

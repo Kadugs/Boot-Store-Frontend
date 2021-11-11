@@ -1,21 +1,26 @@
-import axios from 'axios';
-const BASE_URL = 'http://localhost:4000';
+import axios from "axios";
 
-function getCartQuantity (token) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
+const BASE_URL = "http://localhost:4000";
 
-    return axios.get(`${BASE_URL}/cart/quantity`, config);
+function createHeaders(token) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return config;
 }
 
-function searchProduct (name) {
-    return axios.get(`${BASE_URL}/products?name=${name}`);
+function getCartQuantity(token) {
+  const config = createHeaders(token);
+  return axios.get(`${BASE_URL}/cart/quantity`, config);
 }
 
-export {
-    getCartQuantity,
-    searchProduct,
+function searchProduct(name) {
+  return axios.get(`${BASE_URL}/products?name=${name}`);
 }
+function listCartProductsForVisitor(params) {
+  return axios.get(`${BASE_URL}/products/cart`, params);
+}
+
+export { getCartQuantity, searchProduct, listCartProductsForVisitor };
