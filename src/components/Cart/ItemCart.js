@@ -1,40 +1,29 @@
 import { ItemImg } from "./ContainerCart";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import CartContext from "../../contexts/CartContext";
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
-export default function ItemCart({ cartIndex, itemInfos }) {
-  const { name, image, value } = itemInfos;
-  const storagedItems = JSON.parse(localStorage.getItem("cart"));
+export default function ItemCart({ item }) {
+  const { name, image, value, quantity, code } = item;
   const history = useHistory();
-  const [quantityValue, setQuantityValue] = useState(
-    storagedItems[cartIndex]?.quantity
-  );
+  const { cart, setCart } = useContext(CartContext);
   function deleteItem() {
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(storagedItems.filter((item, index) => index !== cartIndex))
-    );
-    setQuantityValue(0);
+    setCart(cart.filter((cartItems) => cartItems !== item));
   }
   useEffect(() => {
-    if (!!storagedItems[cartIndex]) {
-      storagedItems[cartIndex].quantity = quantityValue;
-    }
-    localStorage.setItem("cart", JSON.stringify(storagedItems));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quantityValue]);
-  if (storagedItems[cartIndex]?.quantity === undefined) return <></>;
+  }, []);
+  if (quantity === undefined) return <></>;
   return (
     <tr>
       <td
         className="product-td"
-        onClick={() =>
-          history.push(`/products/${storagedItems[cartIndex].code}`)
-        }
+        onClick={() => history.push(`/products/${code}`)}
       >
         <ItemImg src={image} alt="dog" />
         <p>{name}</p>
@@ -43,22 +32,46 @@ export default function ItemCart({ cartIndex, itemInfos }) {
         <IoChevronBackOutline
           cursor="pointer"
           onClick={
-            quantityValue > 1
+            quantity > 1
               ? () => {
-                  setQuantityValue(quantityValue - 1);
+                  setCart(
+                    cart.map((itemCart) =>
+                      itemCart === item
+                        ? {
+                            code: itemCart.code,
+                            name: itemCart.name,
+                            image: itemCart.image,
+                            value: itemCart.value,
+                            quantity: itemCart.quantity - 1,
+                          }
+                        : itemCart
+                    )
+                  );
                 }
               : null
           }
         />
-        {quantityValue}
+        {quantity}
         <IoChevronForwardOutline
           cursor="pointer"
           onClick={() => {
-            setQuantityValue(quantityValue + 1);
+            setCart(
+              cart.map((itemCart) =>
+                itemCart === item
+                  ? {
+                      code: itemCart.code,
+                      name: itemCart.name,
+                      image: itemCart.image,
+                      value: itemCart.value,
+                      quantity: itemCart.quantity + 1,
+                    }
+                  : itemCart
+              )
+            );
           }}
         />
       </td>
-      <td className="price-td">R$ {value * quantityValue}</td>
+      <td className="price-td">R$ {value * quantity}</td>
       <td className="delete-td">
         <IoTrashBinOutline onClick={deleteItem} cursor="pointer" />
       </td>

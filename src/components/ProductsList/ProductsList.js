@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import { getProductsList } from "../../services/bootstore.js";
 import { getRatings } from "../../services/bootstore.js";
 import Product from "./Product.js";
-
+import Header from "../Header/Header";
 export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [orderBy, serOrderBy] = useState("visits");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getProductsList(orderBy)
@@ -22,19 +23,24 @@ export default function ProductsList() {
   }, []);
 
   return (
-    <Container>
-      <ProductsGrid>
-        {products.map((product) => (
-          <Product
-            key={product.code}
-            product={product}
-            rating={ratings.find(
-              (rating) => rating.productCode === product.code
-            )}
-          />
-        ))}
-      </ProductsGrid>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <ProductsGrid>
+          {products.map((product) => (
+            <Product
+              key={product.code}
+              product={product}
+              rating={ratings.find(
+                (rating) => rating.productCode === product.code
+              )}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          ))}
+        </ProductsGrid>
+      </Container>
+    </>
   );
 }
 

@@ -1,13 +1,46 @@
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext.js';
+import CartContext from '../../contexts/CartContext.js';
+import { addToCart } from '../../services/bootstore.js';
 import { useHistory } from 'react-router-dom';
-import { BsFillCartPlusFill as AddToCartIcon} from 'react-icons/bs';
+import { 
+    BsFillCartPlusFill as AddToCartIcon, 
+    BsCartCheckFill as AddedToCartIcon
+} from 'react-icons/bs';
 
-export default function Product ({ product, rating }) {
+export default function Product ({ product, rating, loading, setLoading }) {
+    const { user } = useContext(UserContext);
+    const { cart, setCart } = useContext(CartContext);
     const history = useHistory();
 
-    function addToCart (event) {
+    function addProductToCart (event) {
         event.stopPropagation();
+        setLoading(true);
+
+        const body = {
+            code: Number(product.code),
+            name: product.name,
+            image: product.image,
+            value: product.value,
+            quantity: 1,
+        }
+
+        const newCart = cart ? [...cart, body] : [body];
+
+        if (user?.token) {
+            addToCart(user.token, body)
+                .then(() => {
+                    setCart(newCart);
+                    setLoading(false);
+                })
+                .catch(() => alert("Ocorreu algum erro! Tente novamente!"));
+        } else {
+            setCart(newCart);
+            localStorage.setItem('cart',JSON.stringify(newCart));
+            setLoading(false);
+        }
     }
 
     return (
@@ -28,8 +61,8 @@ export default function Product ({ product, rating }) {
                 <span>{rating?.quantity || 0} avaliações</span>
             </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
-            <AddButton onClick={addToCart}>
-                <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />
+            <AddButton onClick={cart?.some((item) => Number(item.code) === Number(product.code)) || loading ? (event) => event.stopPropagation() : addProductToCart} added={cart?.some((item) => Number(item.code) === Number(product.code))} disabled={loading}>
+                {cart?.some((item) => Number(item.code) === Number(product.code)) ? <AddedToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} /> : <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />}
             </AddButton>
         </ProductBox>
     );
@@ -85,7 +118,7 @@ const AddButton = styled.button`
     height: 30px;
     border: none;
     border-radius: 3px;
-    background-color: #F80032;
+    background-color: ${({ added }) => added ? '#4CBB17' : '#F80032'};
     position: absolute;
     bottom: 25px;
     right: 20px;
@@ -93,8 +126,9 @@ const AddButton = styled.button`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    filter: ${({ added, disabled }) => !disabled || added ? 'none' : 'brightness(0.5)'};
 
     :hover {
-        filter: brightness(0.9);
+        ${({ added, disabled }) => added || disabled ? "" : 'filter: brightness(0.8)'};
     }
 `;

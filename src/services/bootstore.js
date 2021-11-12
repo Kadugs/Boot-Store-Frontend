@@ -2,18 +2,12 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:4000";
 
-function createHeaders(token) {
-  const config = {
+function headerConfig(token) {
+  return {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return config;
-}
-
-function getCartQuantity(token) {
-  const config = createHeaders(token);
-  return axios.get(`${BASE_URL}/cart/quantity`, config);
 }
 
 function searchProduct(name) {
@@ -29,12 +23,13 @@ function listCartProductsForVisitor(params) {
   return axios.get(`${BASE_URL}/products/cart`, params);
 }
 function addItemToCart(token, params) {
-  const config = createHeaders(token);
+  const config = headerConfig(token);
   return axios.get(`${BASE_URL}/products/addCart`, config, params);
 }
 
 function listCartProductsForUsers(token, params) {
-  const config = createHeaders(token);
+  const config = headerConfig(token);
+
   return axios.get(`${BASE_URL}/products/listUserCart`, config, params);
 }
 
@@ -46,8 +41,19 @@ function getRatings() {
   return axios.get(`${BASE_URL}/ratings`);
 }
 
+function addToCart(token, body) {
+  const config = headerConfig(token);
+
+  return axios.post(`${BASE_URL}/cart`, body, config);
+}
+
+function getCart(token) {
+  const config = headerConfig(token);
+
+  return axios.get(`${BASE_URL}/cart`, config);
+}
+
 export {
-  getCartQuantity,
   searchProduct,
   getProductsList,
   getRatings,
@@ -55,4 +61,6 @@ export {
   listCartProductsForVisitor,
   listCartProductsForUsers,
   addItemToCart,
+  getCart,
+  addToCart,
 };
