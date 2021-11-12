@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import UserContext from '../../contexts/UserContext.js';
 import CartContext from '../../contexts/CartContext.js';
 import { addToCart } from '../../services/bootstore.js';
 import { useHistory } from 'react-router-dom';
-import { BsFillCartPlusFill as AddToCartIcon} from 'react-icons/bs';
+import { 
+    BsFillCartPlusFill as AddToCartIcon, 
+    BsCartCheckFill as AddedToCartIcon
+} from 'react-icons/bs';
 
 export default function Product ({ product, rating }) {
     const { user } = useContext(UserContext);
     const { cart, setCart } = useContext(CartContext);
+    const [added, setAdded] = useState(cart.some((item) => item.code === Number(product.code)));
     const history = useHistory();
 
     function addToProductCart (event) {
@@ -30,6 +34,7 @@ export default function Product ({ product, rating }) {
             setCart(newCart);
             localStorage.setItem('cart',JSON.stringify(newCart));
         }
+        setAdded(true);
     }
 
     return (
@@ -50,8 +55,8 @@ export default function Product ({ product, rating }) {
                 <span>{rating?.quantity || 0} avaliações</span>
             </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
-            <AddButton onClick={addToProductCart}>
-                <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />
+            <AddButton onClick={added ? (event) => event.stopPropagation() : addToProductCart} added={added}>
+                {added ? <AddedToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} /> : <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />}
             </AddButton>
         </ProductBox>
     );
@@ -107,7 +112,7 @@ const AddButton = styled.button`
     height: 30px;
     border: none;
     border-radius: 3px;
-    background-color: #F80032;
+    background-color: ${({ added }) => added ? '#4CBB17' : '#F80032'};
     position: absolute;
     bottom: 25px;
     right: 20px;
@@ -117,6 +122,6 @@ const AddButton = styled.button`
     cursor: pointer;
 
     :hover {
-        filter: brightness(0.9);
+        filter: brightness(${({ added }) => added ? 1 : 0.8});
     }
 `;
