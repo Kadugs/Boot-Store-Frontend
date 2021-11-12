@@ -13,10 +13,9 @@ import {
 export default function Product ({ product, rating }) {
     const { user } = useContext(UserContext);
     const { cart, setCart } = useContext(CartContext);
-    const [added, setAdded] = useState(cart.some((item) => item.code === Number(product.code)));
     const history = useHistory();
 
-    function addToProductCart (event) {
+    function addProductToCart (event) {
         event.stopPropagation();
 
         const body = {
@@ -34,7 +33,6 @@ export default function Product ({ product, rating }) {
             setCart(newCart);
             localStorage.setItem('cart',JSON.stringify(newCart));
         }
-        setAdded(true);
     }
 
     return (
@@ -55,8 +53,8 @@ export default function Product ({ product, rating }) {
                 <span>{rating?.quantity || 0} avaliações</span>
             </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
-            <AddButton onClick={added ? (event) => event.stopPropagation() : addToProductCart} added={added}>
-                {added ? <AddedToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} /> : <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />}
+            <AddButton onClick={cart?.some((item) => Number(item.code) === Number(product.code)) ? (event) => event.stopPropagation() : addProductToCart} added={cart?.some((item) => Number(item.code) === Number(product.code))}>
+                {cart?.some((item) => Number(item.code) === Number(product.code)) ? <AddedToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} /> : <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />}
             </AddButton>
         </ProductBox>
     );
