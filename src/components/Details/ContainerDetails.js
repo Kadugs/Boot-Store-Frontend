@@ -84,9 +84,10 @@ const Button = styled.button`
   width: 250px;
   border: none;
   font-weight: bold;
+  filter: ${({ disabled }) => disabled ? 'brightness(0.5)' : 'none'};
   &:hover {
-    cursor: ${({ added }) => added ? 'initial' : 'pointer'};
-    filter: brightness(${({ added }) => added ? 1 : 1.15});
+    cursor: ${({ added, disabled }) => added || disabled ? 'initial' : 'pointer'};
+    ${({ added, disabled }) => added || disabled ? '' : 'filter: brightness(1.15)'};
   }
 `;
 const ItemQuantity = styled.div`

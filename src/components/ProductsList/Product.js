@@ -10,13 +10,14 @@ import {
     BsCartCheckFill as AddedToCartIcon
 } from 'react-icons/bs';
 
-export default function Product ({ product, rating }) {
+export default function Product ({ product, rating, loading, setLoading }) {
     const { user } = useContext(UserContext);
     const { cart, setCart } = useContext(CartContext);
     const history = useHistory();
 
     function addProductToCart (event) {
         event.stopPropagation();
+        setLoading(true);
 
         const body = {
             code: Number(product.code),
@@ -27,11 +28,15 @@ export default function Product ({ product, rating }) {
 
         if (user?.token) {
             addToCart(user.token, body)
-                .then(() => setCart(newCart))
+                .then(() => {
+                    setCart(newCart);
+                    setLoading(false);
+                })
                 .catch(() => alert("Ocorreu algum erro! Tente novamente!"));
         } else {
             setCart(newCart);
             localStorage.setItem('cart',JSON.stringify(newCart));
+            setLoading(false);
         }
     }
 
@@ -53,7 +58,7 @@ export default function Product ({ product, rating }) {
                 <span>{rating?.quantity || 0} avaliações</span>
             </Rating>
             <Price>{Number(product?.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Price>
-            <AddButton onClick={cart?.some((item) => Number(item.code) === Number(product.code)) ? (event) => event.stopPropagation() : addProductToCart} added={cart?.some((item) => Number(item.code) === Number(product.code))}>
+            <AddButton onClick={cart?.some((item) => Number(item.code) === Number(product.code)) || loading ? (event) => event.stopPropagation() : addProductToCart} added={cart?.some((item) => Number(item.code) === Number(product.code))} disabled={loading}>
                 {cart?.some((item) => Number(item.code) === Number(product.code)) ? <AddedToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} /> : <AddToCartIcon style={{ color: '#FFFFFF', fontSize: '20px' }} />}
             </AddButton>
         </ProductBox>
@@ -118,8 +123,9 @@ const AddButton = styled.button`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    filter: ${({ added, disabled }) => !disabled || added ? 'none' : 'brightness(0.5)'};
 
     :hover {
-        filter: brightness(${({ added }) => added ? 1 : 0.8});
+        ${({ added, disabled }) => added || disabled ? "" : 'filter: brightness(0.8)'};
     }
 `;
