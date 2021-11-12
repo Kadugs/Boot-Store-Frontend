@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const BASE_URL = "http://localhost:4000";
 
 function headerConfig(token) {
@@ -14,20 +13,16 @@ function searchProduct(name) {
   return axios.get(`${BASE_URL}/products?name=${name}`);
 }
 
-function getProductDetails(id) {
-  return axios.get(`${BASE_URL}/product/${id}`);
-}
-function addItemToCart(token, params) {
-  const config = headerConfig(token);
-  return axios.get(`${BASE_URL}/products/addCart`, config, params);
+function getProductsList (order) {
+    return axios.get(`${BASE_URL}/products?orderby=${order}`);
 }
 
-function getProductsList(order) {
-  return axios.get(`${BASE_URL}/products?orderby=${order}`);
+function getRatings () {
+    return axios.get(`${BASE_URL}/ratings`);
 }
 
-function getRatings() {
-  return axios.get(`${BASE_URL}/ratings`);
+function getProductDetails(code) {
+  return axios.get(`${BASE_URL}/product/${code}`);
 }
 
 function addToCart(token, body) {
@@ -36,18 +31,17 @@ function addToCart(token, body) {
   return axios.post(`${BASE_URL}/cart`, body, config);
 }
 
-function getCart(token) {
+function getCart (token) {
   const config = headerConfig(token);
 
   return axios.get(`${BASE_URL}/cart`, config);
 }
 
 export {
-  searchProduct,
-  getProductsList,
-  getRatings,
-  getProductDetails,
-  addItemToCart,
-  getCart,
-  addToCart,
-};
+    searchProduct,
+    getProductsList,
+    getRatings,
+    getProductDetails,
+    addToCart,
+    getCart,
+}

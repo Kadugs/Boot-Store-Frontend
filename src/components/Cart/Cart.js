@@ -39,8 +39,8 @@ export default function Cart() {
             <th className="price-th">valor</th>
             <th></th>
           </tr>
-          {cart.map((item) => (
-            <ItemCart key={item.code} item={item} />
+          {cart.map((item, index) => (
+            <ItemCart key={item.code} item={item} index={index} />
           ))}
         </CartProducts>
       </MainCart>

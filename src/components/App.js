@@ -18,7 +18,7 @@ export default function App() {
       getCart(user.token)
         .then((response) => setCart(response.data))
         .catch((error) => alert("Ocorreu algum erro! Tente novamente."));
-    }
+    } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
