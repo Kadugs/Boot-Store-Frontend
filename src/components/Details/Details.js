@@ -1,11 +1,14 @@
 import StarRatings from "react-star-ratings";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from '../../contexts/UserContext.js';
+import CartContext from '../../contexts/CartContext.js';
 import { useParams, Link } from "react-router-dom";
-import { getProductDetails } from "../../services/bootstore";
+import { getProductDetails, addToCart } from "../../services/bootstore";
 import {
   IoCartOutline,
   IoChevronDownOutline,
   IoChevronUpOutline,
+  IoCheckbox,
 } from "react-icons/io5";
 import {
   ContainerDetails,
@@ -22,40 +25,13 @@ import {
 } from "./ContainerDetails";
 
 export default function Details() {
+  const { user } = useContext(UserContext);
+  const { cart, setCart } = useContext(CartContext);
   const { code } = useParams();
   const [productInfos, setProductInfos] = useState({});
   const [quantityValue, setQuantityValue] = useState(1);
-  const [isInCart, setIsInCart] = useState(false);
-  function addToCart() {
-    const cartInfos = {
-      code: productInfos.code,
-      quantity: quantityValue,
-    };
-    const storagedItems = JSON.parse(localStorage.getItem("cart"));
-    if (!storagedItems) {
-      localStorage.setItem("cart", JSON.stringify([cartInfos]));
-    } else if (storagedItems?.some((item) => item.code === cartInfos.code)) {
-      const indexOfEquals = storagedItems.findIndex(
-        (item) => item.code === cartInfos.code
-      );
-      storagedItems[indexOfEquals].quantity += quantityValue;
-      localStorage.setItem("cart", JSON.stringify(storagedItems));
-    } else {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([...storagedItems, cartInfos])
-      );
-    }
-  }
 
   useEffect(() => {
-    if (
-      JSON.parse(localStorage.getItem("cart"))?.some(
-        (item) => item.code === productInfos.code
-      )
-    ) {
-      setIsInCart(true);
-    }
     getProductDetails(code)
       .then((res) => {
         setProductInfos(res.data);
@@ -64,7 +40,26 @@ export default function Details() {
         ////////////////////////////////// ALTERAR ESSE CATCH ////////////////////////////////////////
         console.log(err);
       });
-  }, [setIsInCart, code]);
+  }, []);
+
+  function addProductToCart () {
+    const body = {
+        code: Number(productInfos.code),
+        quantity: quantityValue,
+    }
+
+    const newCart = cart ? [...cart, body] : [body];
+
+    if (user?.token) {
+        addToCart(user.token, body)
+            .then(() => setCart(newCart))
+            .catch(() => alert("Ocorreu algum erro! Tente novamente!"));
+    } else {
+        setCart(newCart);
+        localStorage.setItem('cart',JSON.stringify(newCart));
+    }
+  }
+
   if (productInfos.name === undefined) {
     return <Error>Desculpe, produto não encontrado :(</Error>;
   }
@@ -85,31 +80,32 @@ export default function Details() {
           <Description>{productInfos.description}</Description>
           <Brand>Marca: {productInfos.brand}</Brand>
           <CartButtonArea>
-            <Button onClick={addToCart}>
-              <IoCartOutline fontSize="20px" />
-              Adicionar ao carrinho
+            <Button onClick={cart?.some((item) => Number(item.code) === Number(productInfos.code)) ? null : addProductToCart} added={cart?.some((item) => Number(item.code) === Number(productInfos.code))}>
+              {cart?.some((item) => Number(item.code) === Number(productInfos.code)) ? <IoCheckbox fontSize="20px" /> : <IoCartOutline fontSize="20px" />}
+              {cart?.some((item) => Number(item.code) === Number(productInfos.code)) ? 'Adicionado' : 'Adicionar'} ao carrinho
             </Button>
             <span>Quantidade:</span>
             <ItemQuantity>
               <IoChevronUpOutline
                 className="arrows"
-                onClick={() => setQuantityValue(quantityValue + 1)}
+                filter={cart?.some((item) => Number(item.code) === Number(productInfos.code)) ? "brightness(2) ": "none"}
+                onClick={cart?.some((item) => Number(item.code) === Number(productInfos.code)) ? null : () => setQuantityValue(quantityValue + 1)}
               />
               <span>{quantityValue}</span>
               <IoChevronDownOutline
                 className="arrows"
-                filter={quantityValue === 1 ? "brightness(2)" : "none"}
+                filter={(quantityValue < 2 || cart?.some((item) => Number(item.code) === Number(productInfos.code)) )? "brightness(2)" : "none"}
                 onClick={
-                  quantityValue > 1
+                  (quantityValue > 1)
                     ? () => setQuantityValue(quantityValue - 1)
                     : null
                 }
               />
             </ItemQuantity>
           </CartButtonArea>
-          {isInCart ? (
+          {cart?.some((item) => Number(item.code) === Number(productInfos.code)) ? (
             <Link to="/Cart" className="link-to-cart">
-              Item adicionado ao Carrinho!
+              Ir para ao Carrinho
             </Link>
           ) : null}
         </div>

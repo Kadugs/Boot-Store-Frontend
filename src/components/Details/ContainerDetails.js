@@ -77,7 +77,7 @@ const Button = styled.button`
   justify-content: space-around;
   padding: 10px;
   border-radius: 5px;
-  background-color: #f80032;
+  background-color: ${({ added }) => added ? '#4CBB17' : '#f80032'};
   color: white;
   font-size: 19px;
   height: 50px;
@@ -85,8 +85,8 @@ const Button = styled.button`
   border: none;
   font-weight: bold;
   &:hover {
-    cursor: pointer;
-    filter: brightness(1.15);
+    cursor: ${({ added }) => added ? 'initial' : 'pointer'};
+    filter: brightness(${({ added }) => added ? 1 : 1.15});
   }
 `;
 const ItemQuantity = styled.div`
