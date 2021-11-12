@@ -17,20 +17,9 @@ function searchProduct(name) {
 function getProductDetails(id) {
   return axios.get(`${BASE_URL}/product/${id}`);
 }
-
-function listCartProductsForVisitor(params) {
-  console.log(params);
-  return axios.get(`${BASE_URL}/products/cart`, params);
-}
 function addItemToCart(token, params) {
   const config = headerConfig(token);
   return axios.get(`${BASE_URL}/products/addCart`, config, params);
-}
-
-function listCartProductsForUsers(token, params) {
-  const config = headerConfig(token);
-
-  return axios.get(`${BASE_URL}/products/listUserCart`, config, params);
 }
 
 function getProductsList(order) {
@@ -58,8 +47,6 @@ export {
   getProductsList,
   getRatings,
   getProductDetails,
-  listCartProductsForVisitor,
-  listCartProductsForUsers,
   addItemToCart,
   getCart,
   addToCart,
