@@ -21,6 +21,9 @@ export default function Product ({ product, rating, loading, setLoading }) {
 
         const body = {
             code: Number(product.code),
+            name: product.name,
+            image: product.image,
+            value: product.value,
             quantity: 1,
         }
 

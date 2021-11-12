@@ -48,6 +48,9 @@ export default function Details() {
 
     const body = {
         code: Number(productInfos.code),
+        name: productInfos.name,
+        image: productInfos.image,
+        value: productInfos.value,
         quantity: quantityValue,
     }
 
