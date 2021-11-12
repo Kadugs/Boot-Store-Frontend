@@ -7,7 +7,7 @@ import Header from "../Header/Header";
 export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [ratings, setRatings] = useState([]);
-  const [orderBy, serOrderBy] = useState("visits");
+  const [orderBy, setOrderBy] = useState("visits");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

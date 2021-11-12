@@ -1,5 +1,4 @@
 import { useEffect, useState, useContext } from "react";
-import { listCartProductsForVisitor } from "../../services/bootstore";
 import CartContext from "../../contexts/CartContext";
 import {
   ContainerCart,
@@ -15,7 +14,6 @@ import ItemCart from "./ItemCart";
 export default function Cart() {
   const [total, setTotal] = useState(0);
   const { cart } = useContext(CartContext);
-  console.log(cart);
 
   useEffect(() => {
     let totalValue = 0;
