@@ -77,16 +77,17 @@ const Button = styled.button`
   justify-content: space-around;
   padding: 10px;
   border-radius: 5px;
-  background-color: #f80032;
+  background-color: ${({ added }) => added ? '#4CBB17' : '#f80032'};
   color: white;
   font-size: 19px;
   height: 50px;
   width: 250px;
   border: none;
   font-weight: bold;
+  filter: ${({ disabled }) => disabled ? 'brightness(0.5)' : 'none'};
   &:hover {
-    cursor: pointer;
-    filter: brightness(1.15);
+    cursor: ${({ added, disabled }) => added || disabled ? 'initial' : 'pointer'};
+    ${({ added, disabled }) => added || disabled ? '' : 'filter: brightness(1.15)'};
   }
 `;
 const ItemQuantity = styled.div`

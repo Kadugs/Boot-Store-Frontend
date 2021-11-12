@@ -1,14 +1,12 @@
 import axios from "axios";
 const BASE_URL = "http://localhost:4000";
 
-function getCartQuantity(token) {
-  const config = {
+function headerConfig(token) {
+  return {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-
-  return axios.get(`${BASE_URL}/cart/quantity`, config);
 }
 
 function searchProduct(name) {
@@ -27,10 +25,23 @@ function getProductDetails(code) {
   return axios.get(`${BASE_URL}/product/${code}`);
 }
 
+function addToCart(token, body) {
+  const config = headerConfig(token);
+
+  return axios.post(`${BASE_URL}/cart`, body, config);
+}
+
+function getCart (token) {
+  const config = headerConfig(token);
+
+  return axios.get(`${BASE_URL}/cart`, config);
+}
+
 export {
-    getCartQuantity,
     searchProduct,
     getProductsList,
     getRatings,
     getProductDetails,
+    addToCart,
+    getCart,
 }
