@@ -36,6 +36,13 @@ function getCart (token) {
 
   return axios.get(`${BASE_URL}/cart`, config);
 }
+function getProductsQuantity(array) {
+  let codesUrl = '?';
+  array.forEach(item => {
+    codesUrl += `code=${item}&`
+  })
+  return axios.get(`${BASE_URL}/products/quantity/${codesUrl}`);
+}
 
 export {
     searchProduct,
@@ -44,4 +51,5 @@ export {
     getProductDetails,
     addToCart,
     getCart,
+    getProductsQuantity
 }

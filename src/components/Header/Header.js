@@ -18,7 +18,7 @@ export default function Header () {
             <Search />
             <Login onClick={() => user ? null : history.push('/sign-in')}>
                 <UserIcon style={{ fontSize: '45px' }} />
-                <p>{user ? `olá, ${user.name.split(' ')[0]}` : 'faça seu login ou cadastre-se'}</p>
+                <p>{user ? `olá, ${user.name?.split(' ')[0]}` : 'faça seu login ou cadastre-se'}</p>
             </Login>
             <Cart />
         </HeaderBar>
