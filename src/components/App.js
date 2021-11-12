@@ -34,6 +34,7 @@ export default function App() {
               <Details />
             </Route>
             <Route exact path="/cart">
+              <Header />
               <Cart />
             </Route>
             {/* <Redirect to="/" /> */}
