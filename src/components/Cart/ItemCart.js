@@ -33,7 +33,7 @@ export default function ItemCart({ cartIndex, itemInfos }) {
       <td
         className="product-td"
         onClick={() =>
-          history.push(`/product/${storagedItems[cartIndex].code}`)
+          history.push(`/products/${storagedItems[cartIndex].code}`)
         }
       >
         <ItemImg src={image} alt="dog" />

@@ -25,12 +25,34 @@ function getProductDetails(id) {
 }
 
 function listCartProductsForVisitor(params) {
+  console.log(params);
   return axios.get(`${BASE_URL}/products/cart`, params);
+}
+function addItemToCart(token, params) {
+  const config = createHeaders(token);
+  return axios.get(`${BASE_URL}/products/addCart`, config, params);
+}
+
+function listCartProductsForUsers(token, params) {
+  const config = createHeaders(token);
+  return axios.get(`${BASE_URL}/products/listUserCart`, config, params);
+}
+
+function getProductsList(order) {
+  return axios.get(`${BASE_URL}/products?orderby=${order}`);
+}
+
+function getRatings() {
+  return axios.get(`${BASE_URL}/ratings`);
 }
 
 export {
   getCartQuantity,
   searchProduct,
+  getProductsList,
+  getRatings,
   getProductDetails,
   listCartProductsForVisitor,
+  listCartProductsForUsers,
+  addItemToCart,
 };

@@ -96,10 +96,6 @@ const ItemQuantity = styled.div`
   justify-content: center;
   margin: 0 !important;
 `;
-const Error = styled.span`
-  font-size: 20px;
-  margin: auto;
-`;
 
 export {
   ContainerDetails,
@@ -112,5 +108,4 @@ export {
   CartButtonArea,
   ItemQuantity,
   Button,
-  Error,
 };

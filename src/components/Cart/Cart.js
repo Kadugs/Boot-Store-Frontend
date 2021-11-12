@@ -15,8 +15,7 @@ export default function Cart() {
   const [cartItemsInfos, setCartItemsInfos] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
   const storagedItems = JSON.parse(localStorage.getItem("cart"));
-  const productCodes = storagedItems.map((item) => item.code);
-
+  const [productCodes, setProductCodes] = useState(storagedItems?.length > 0 ? storagedItems.map((item) => item.code) : []);
   function changeTotal() {
     const storaged = JSON.parse(localStorage.getItem("cart"));
     storaged?.forEach((item, index) => {

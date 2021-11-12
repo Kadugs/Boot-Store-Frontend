@@ -1,7 +1,8 @@
 import StarRatings from "react-star-ratings";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getProductDetails } from "../../services/API";
+import { useParams, Link, useHistory } from "react-router-dom";
+import { getProductDetails, addItemToCart } from "../../services/bootstore";
+import Swal from "sweetalert2";
 import {
   IoCartOutline,
   IoChevronDownOutline,
@@ -18,55 +19,78 @@ import {
   CartButtonArea,
   ItemQuantity,
   Button,
-  Error,
 } from "./ContainerDetails";
 
 export default function Details() {
-  const { id } = useParams();
+  const { code } = useParams();
   const [productInfos, setProductInfos] = useState({});
   const [quantityValue, setQuantityValue] = useState(1);
   const [isInCart, setIsInCart] = useState(false);
+  const [haveError, setHaveError] = useState(false);
+  const history = useHistory();
+  const storagedItems = JSON.parse(localStorage.getItem("cart"));
+  const user = JSON.parse(localStorage.getItem("user"));
+
   function addToCart() {
     const cartInfos = {
-      code: productInfos.code,
+      code: productInfos?.code,
       quantity: quantityValue,
     };
-    const storagedItems = JSON.parse(localStorage.getItem("@cartItems"));
-    if (!storagedItems) {
-      localStorage.setItem("@cartItems", JSON.stringify([cartInfos]));
-    } else if (storagedItems.some((item) => item.code === cartInfos.code)) {
+    if (user) {
+      addItemToCart(user?.token, cartInfos)
+        .then(() => {
+          setIsInCart(true);
+        })
+        .catch(() => {
+          Swal.fire({
+            title: "Produto não encontrado :(",
+            confirmButtonText: "Ok",
+          });
+          localStorage.removeItem("user");
+        });
+    } else if (!storagedItems) {
+      localStorage.setItem("cart", JSON.stringify([cartInfos]));
+    } else if (storagedItems?.some((item) => item.code === cartInfos.code)) {
       const indexOfEquals = storagedItems.findIndex(
         (item) => item.code === cartInfos.code
       );
       storagedItems[indexOfEquals].quantity += quantityValue;
-      localStorage.setItem("@cartItems", JSON.stringify(storagedItems));
+      localStorage.setItem("cart", JSON.stringify(storagedItems));
     } else {
       localStorage.setItem(
-        "@cartItems",
+        "cart",
         JSON.stringify([...storagedItems, cartInfos])
       );
     }
   }
 
   useEffect(() => {
-    if (
-      JSON.parse(localStorage.getItem("@cartItems")).some(
-        (item) => item.code === productInfos.code
-      )
-    ) {
+    if (storagedItems?.some((item) => item?.code === productInfos?.code)) {
       setIsInCart(true);
     }
-    getProductDetails(id)
+    getProductDetails(code)
       .then((res) => {
         setProductInfos(res.data);
+        if (storagedItems?.some((item) => item?.code === res.data?.code)) {
+          setIsInCart(true);
+        }
       })
       .catch((err) => {
-        ////////////////////////////////// ALTERAR ESSE CATCH ////////////////////////////////////////
-        console.log(err);
+        setHaveError(true);
+        console.error(err);
       });
-  });
-  if (productInfos.name === undefined) {
-    return <Error>Desculpe, produto não encontrado :(</Error>;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setIsInCart, code]);
+  if (haveError) {
+    Swal.fire({
+      title: "Produto não encontrado :(",
+      confirmButtonText: "Ok",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        history.push("/");
+      }
+    });
   }
   return (
     <ContainerDetails>
