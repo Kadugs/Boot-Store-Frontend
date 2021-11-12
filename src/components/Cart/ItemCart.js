@@ -65,7 +65,7 @@ export default function ItemCart({ item, index }) {
           onClick={() => changeCartQuantity(1)}
         />
       </td>
-      <td className="price-td">R$ {value * quantity}</td>
+      <td className="price-td">{Number(value * quantity).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
       <td className="delete-td">
         <IoTrashBinOutline onClick={deleteItem} cursor="pointer" />
       </td>

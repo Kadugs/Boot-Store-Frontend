@@ -48,7 +48,7 @@ export default function Cart() {
         <Title>Informações do pedido</Title>
         <Total>
           <span>Total</span>
-          <span>R$ {total}</span>
+          <span>{Number(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
         </Total>
         <CheckoutButton>continuar</CheckoutButton>
       </CheckoutMenu>
