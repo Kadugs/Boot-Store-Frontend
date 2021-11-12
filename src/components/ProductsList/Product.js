@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import UserContext from '../../contexts/UserContext.js';
 import CartContext from '../../contexts/CartContext.js';
 import { addToCart } from '../../services/bootstore.js';
