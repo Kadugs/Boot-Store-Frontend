@@ -1,24 +1,28 @@
 import GlobalStyle from "../styles/globalStyle.js";
-import { useState, useEffect } from 'react';
-import UserContext from '../contexts/UserContext.js';
-import CartContext from '../contexts/CartContext.js';
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Payment from "./Checkout/Payment";
+import { useState, useEffect } from "react";
+import UserContext from "../contexts/UserContext.js";
+import CartContext from "../contexts/CartContext.js";
+import PaymentContext from "../contexts/PaymentContext.js";
 import Header from "./Header/Header.js";
 import ProductsList from "./ProductsList/ProductsList.js";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Details from "./Details/Details";
-import { getCart } from '../services/bootstore.js';
-import Checkout from "./Checkout/Checkout";
+import Cart from "./Cart/Cart";
+import { getCart } from "../services/bootstore.js";
+
 export default function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")));
+  const [payment, setPayment] = useState({});
 
   useEffect(() => {
     if (user) {
       getCart(user.token)
         .then((response) => setCart(response.data))
-        .catch((error) => alert('Ocorreu algum erro! Tente novamente.'));
+        .catch((error) => alert("Ocorreu algum erro! Tente novamente."));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -32,9 +36,15 @@ export default function App() {
               <Header />
               <Details />
             </Route>
-            <Route exact path="/checkout">
-              <Checkout />
+            <Route exact path="/cart">
+              <Header />
+              <Cart />
             </Route>
+            <PaymentContext.Provider value={{ payment, setPayment }}>
+              <Route exact path="/checkout/payment">
+                <Payment />
+              </Route>
+            </PaymentContext.Provider>
             {/* <Redirect to="/" /> */}
           </Switch>
         </BrowserRouter>
