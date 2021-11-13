@@ -16,9 +16,9 @@ export default function Cart() {
   const { cart } = useContext(CartContext);
 
   useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
     let totalValue = 0;
     cart?.forEach((item) => {
-      console.log(item.quantity);
       setTotal(totalValue + item.value * item.quantity);
       totalValue += item.value * item.quantity;
     });

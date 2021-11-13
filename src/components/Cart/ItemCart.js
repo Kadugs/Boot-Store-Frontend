@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useContext } from "react";
 import CartContext from "../../contexts/CartContext";
 import UserContext from "../../contexts/UserContext";
-import { addToCart } from "../../services/bootstore";
+import { addToCart, deleteFromCart } from "../../services/bootstore";
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
@@ -16,29 +16,34 @@ export default function ItemCart({ item, index }) {
   const { user } = useContext(UserContext);
 
   function deleteItem() {
-    setCart(cart.filter((cartItems) => cartItems !== item));
+    const newCart = cart.filter((itemCart) => itemCart !== item);
+    setCart(newCart);
+    if (user) {
+      deleteFromCart(user.token, code)
+        .then(() => {})
+        .catch(() => alert("Ocorreu algum erro! Tente novamente."));
+    }
+    localStorage.setItem("cart", JSON.stringify(newCart));
   }
   function changeCartQuantity(value) {
     const newCart = cart.map((itemCart) =>
-    itemCart === item
-      ? {
-          code: itemCart.code,
-          name: itemCart.name,
-          image: itemCart.image,
-          value: itemCart.value,
-          quantity: itemCart.quantity + value,
-        }
-      : itemCart
-      )
+      itemCart === item
+        ? {
+            code: itemCart.code,
+            name: itemCart.name,
+            image: itemCart.image,
+            value: itemCart.value,
+            quantity: itemCart.quantity + value,
+          }
+        : itemCart
+    );
     setCart(newCart);
     if (user) {
       addToCart(user.token, newCart[index])
-        .then(() => {
-          
-        })
+        .then(() => {})
         .catch(() => alert("Ocorreu algum erro! Tente novamente."));
-    } 
-    localStorage.setItem('cart', JSON.stringify(newCart));
+    }
+    localStorage.setItem("cart", JSON.stringify(newCart));
   }
   if (quantity === undefined) return <></>;
   return (
@@ -53,11 +58,7 @@ export default function ItemCart({ item, index }) {
       <td className="qtd-td">
         <IoChevronBackOutline
           cursor="pointer"
-          onClick={
-            quantity > 1
-              ? () => changeCartQuantity(-1)
-              : null
-          }
+          onClick={quantity > 1 ? () => changeCartQuantity(-1) : null}
         />
         {quantity}
         <IoChevronForwardOutline
@@ -65,7 +66,12 @@ export default function ItemCart({ item, index }) {
           onClick={() => changeCartQuantity(1)}
         />
       </td>
-      <td className="price-td">{Number(value * quantity).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+      <td className="price-td">
+        {Number(value * quantity).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        })}
+      </td>
       <td className="delete-td">
         <IoTrashBinOutline onClick={deleteItem} cursor="pointer" />
       </td>
