@@ -18,11 +18,13 @@ export default function Cart() {
   useEffect(() => {
     let totalValue = 0;
     cart?.forEach((item) => {
-      setTotal(totalValue + item.quantity * item.value);
+      console.log(item.quantity);
+      setTotal(totalValue + item.value * item.quantity);
+      totalValue += item.value * item.quantity;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
-  if (cart[0]?.name === undefined)
+  if (!cart)
     return (
       <Empty>
         <span>Carrinho vazio</span>
@@ -48,7 +50,12 @@ export default function Cart() {
         <Title>Informações do pedido</Title>
         <Total>
           <span>Total</span>
-          <span>{Number(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+          <span>
+            {Number(total).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </span>
         </Total>
         <CheckoutButton>continuar</CheckoutButton>
       </CheckoutMenu>
