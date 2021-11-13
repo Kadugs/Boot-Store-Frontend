@@ -5,10 +5,17 @@ import UserContext from '../../contexts/UserContext.js';
 import Cart from './Cart.js';
 import Search from './Search.js';
 import { FaRegUserCircle as UserIcon } from 'react-icons/fa';
+import { IoLogOutOutline as SignOutIcon } from 'react-icons/io5';
 
 export default function Header () {
     const { user } = useContext(UserContext);
     const history = useHistory();
+
+    function signOut (event) {
+        event.stopPropagation();
+        localStorage.removeItem("user");
+        return history.push("/sign-in");
+    }
 
     return (
         <HeaderBar>
@@ -18,7 +25,10 @@ export default function Header () {
             <Search />
             <Login onClick={() => user ? null : history.push('/sign-in')}>
                 <UserIcon style={{ fontSize: '45px' }} />
-                <p>{user ? `olá, ${user.name.split(' ')[0]}` : 'faça seu login ou cadastre-se'}</p>
+                <div>
+                    {user ? `olá, ${user.name.split(' ')[0]}` : 'faça seu login ou cadastre-se'}
+                    {user ? <SignOutIcon style={{ fontSize: '20px' }} onClick={signOut} /> : null}
+                </div>
             </Login>
             <Cart />
         </HeaderBar>
@@ -52,8 +62,11 @@ const Login = styled.div`
     align-items: center;
     cursor: pointer;
 
-    p {
+    & div {
         width: 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         margin-left: 5px;
     }
 `;

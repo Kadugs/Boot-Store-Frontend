@@ -6,6 +6,7 @@ import Header from "./Header/Header.js";
 import ProductsList from "./ProductsList/ProductsList.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Details from "./Details/Details";
+import SignUp from "./SignUp/SignUp.js";
 import Cart from "./Cart/Cart";
 import { getCart } from "../services/bootstore.js";
 
@@ -32,6 +33,10 @@ export default function App() {
             <Route exact path="/products/:code">
               <Header />
               <Details />
+            </Route>
+            <Route path="/sign-up" exact>
+              <Header />
+              <SignUp />
             </Route>
             <Route exact path="/cart">
               <Header />

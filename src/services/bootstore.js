@@ -42,6 +42,10 @@ function getCart(token) {
   return axios.get(`${BASE_URL}/cart`, config);
 }
 
+function signUp (body) {
+  return axios.post(`${BASE_URL}/sign-up`, body);
+}
+
 export {
   searchProduct,
   getProductsList,
@@ -49,5 +53,6 @@ export {
   getProductDetails,
   addToCart,
   getCart,
+  signUp,
   deleteFromCart,
 };
