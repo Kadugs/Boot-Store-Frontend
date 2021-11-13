@@ -14,11 +14,13 @@ const MainDetails = styled.div`
   position: relative;
   background-color: #fff;
   display: flex;
+  justify-content: center;
   border-radius: 5px;
   width: 900px;
   min-height: 600px;
   padding: 40px;
   div {
+    margin-left: 30px;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -75,19 +77,22 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-right: 10px;
   padding: 10px;
   border-radius: 5px;
-  background-color: ${({ added }) => added ? '#4CBB17' : '#f80032'};
+  background-color: ${({ added }) => (added ? "#4CBB17" : "#f80032")};
   color: white;
   font-size: 19px;
   height: 50px;
   width: 250px;
   border: none;
   font-weight: bold;
-  filter: ${({ disabled }) => disabled ? 'brightness(0.5)' : 'none'};
+  filter: ${({ disabled }) => (disabled ? "brightness(0.5)" : "none")};
   &:hover {
-    cursor: ${({ added, disabled }) => added || disabled ? 'initial' : 'pointer'};
-    ${({ added, disabled }) => added || disabled ? '' : 'filter: brightness(1.15)'};
+    cursor: ${({ added, disabled }) =>
+      added || disabled ? "initial" : "pointer"};
+    ${({ added, disabled }) =>
+      added || disabled ? "" : "filter: brightness(1.15)"};
   }
 `;
 const ItemQuantity = styled.div`
@@ -96,10 +101,6 @@ const ItemQuantity = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 !important;
-`;
-const Error = styled.span`
-  font-size: 20px;
-  margin: auto;
 `;
 
 export {
@@ -113,5 +114,4 @@ export {
   CartButtonArea,
   ItemQuantity,
   Button,
-  Error,
 };
