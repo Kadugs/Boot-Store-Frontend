@@ -17,13 +17,14 @@ export default function ItemCart({ item, index }) {
 
   function deleteItem() {
     const newCart = cart.filter((itemCart) => itemCart !== item);
-    setCart(newCart);
     if (user) {
       deleteFromCart(user.token, code)
-        .then(() => {})
+        .then(() => {
+          setCart(newCart);
+          localStorage.setItem("cart", JSON.stringify(newCart));
+        })
         .catch(() => alert("Ocorreu algum erro! Tente novamente."));
     }
-    localStorage.setItem("cart", JSON.stringify(newCart));
   }
   function changeCartQuantity(value) {
     const newCart = cart.map((itemCart) =>
@@ -37,13 +38,14 @@ export default function ItemCart({ item, index }) {
           }
         : itemCart
     );
-    setCart(newCart);
     if (user) {
       addToCart(user.token, newCart[index])
-        .then(() => {})
+        .then(() => {
+          localStorage.setItem("cart", JSON.stringify(newCart));
+          setCart(newCart);
+        })
         .catch(() => alert("Ocorreu algum erro! Tente novamente."));
     }
-    localStorage.setItem("cart", JSON.stringify(newCart));
   }
   if (quantity === undefined) return <></>;
   return (
