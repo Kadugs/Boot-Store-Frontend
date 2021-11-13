@@ -6,6 +6,7 @@ import Header from "./Header/Header.js";
 import ProductsList from "./ProductsList/ProductsList.js";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Details from "./Details/Details";
+import SignUp from "./SignUp/SignUp.js";
 import { getCart } from '../services/bootstore.js';
 
 export default function App() {
@@ -31,6 +32,10 @@ export default function App() {
             <Route exact path="/products/:code">
               <Header />
               <Details />
+            </Route>
+            <Route path="/sign-up" exact>
+              <Header />
+              <SignUp />
             </Route>
             <Redirect to="/" />
           </Switch>
