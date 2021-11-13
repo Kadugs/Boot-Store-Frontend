@@ -24,6 +24,9 @@ export default function ItemCart({ item, index }) {
           localStorage.setItem("cart", JSON.stringify(newCart));
         })
         .catch(() => alert("Ocorreu algum erro! Tente novamente."));
+    } else {
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      setCart(newCart);
     }
   }
   function changeCartQuantity(value) {
@@ -45,6 +48,9 @@ export default function ItemCart({ item, index }) {
           setCart(newCart);
         })
         .catch(() => alert("Ocorreu algum erro! Tente novamente."));
+    } else {
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      setCart(newCart);
     }
   }
   if (quantity === undefined) return <></>;
