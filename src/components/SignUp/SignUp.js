@@ -1,8 +1,15 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import UserContext from "../../contexts/UserContext.js";
+import { Link, useHistory } from "react-router-dom";
 import Form from './Form.js';
 
 export default function SignUp () {
+    const { user } = useContext(UserContext);
+    const history = useHistory();
+
+    useEffect(() => user ? history.push("/") : null);
+
     return (
         <Container>
             <PageTitle>criar seu cadastro</PageTitle>
