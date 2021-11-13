@@ -24,7 +24,7 @@ export default function Cart() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
-  if (!cart)
+  if (!cart || cart.every((item) => item.quantity === 0))
     return (
       <Empty>
         <span>Carrinho vazio</span>
