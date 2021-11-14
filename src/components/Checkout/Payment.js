@@ -70,7 +70,7 @@ export default function Payment() {
         <div>
           <button
             onClick={() => {
-              setPayment({ method: "ticket" });
+              setPayment({ method: "Boleto" });
               history.push("/checkout/shipping");
             }}
           >
@@ -79,7 +79,7 @@ export default function Payment() {
           <button
             className="credit-card"
             onClick={() => {
-              if (!isCreditCard) setPayment({ method: "credit-Card" });
+              if (!isCreditCard) setPayment({ method: "Cartão" });
               setIsCreditCard(!isCreditCard);
             }}
           >

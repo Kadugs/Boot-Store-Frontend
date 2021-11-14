@@ -13,6 +13,14 @@ const ContainerCheckout = styled.div`
   input[type="number"] {
     -moz-appearance: textfield;
   }
+  span {
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-size: 20px;
+  }
+  strong {
+    font-weight: bold;
+  }
 `;
 const Method = styled.div`
   height: 100px;
@@ -46,11 +54,6 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  span {
-    font-weight: bold;
-    margin-bottom: 30px;
-    font-size: 20px;
-  }
   div {
     width: 400px;
   }
@@ -89,8 +92,8 @@ const ContainerSelect = styled.select`
   background-color: #fff;
 `;
 const Button = styled.button`
-  background-color: #f80032;
-  color: white;
+  background-color: ${(props) => (!props?.cancel ? "#f80032" : "whitegray")};
+  color: ${(props) => (!props?.cancel ? "white" : "black")};
   border-radius: 5px;
   border: 1px solid gray;
   width: 380px;
@@ -106,6 +109,37 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
+const ContainerConfirm = styled.div`
+  display: flex;
+`;
+const ShippingInfos = styled.div`
+  min-width: 300px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50px;
+  line-height: 30px;
+  margin-right: 20px;
+  p {
+    padding-top: 20px;
+  }
+`;
+const ContainerConfirmInfos = styled.div`
+  background-color: #f8f8f8;
+  padding: 15px;
+  min-width: 400px;
+  height: 400px;
+  border-radius: 5px;
+  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow: auto;
+`;
+const Li = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+`;
 export {
   ContainerCheckout,
   Method,
@@ -115,4 +149,8 @@ export {
   Label,
   Button,
   ContainerSelect,
+  ContainerConfirm,
+  ShippingInfos,
+  ContainerConfirmInfos,
+  Li,
 };

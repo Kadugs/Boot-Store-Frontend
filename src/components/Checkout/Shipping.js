@@ -19,7 +19,7 @@ export default function Shipping() {
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState("AC");
   const history = useHistory();
 
   useEffect(() => {
@@ -54,7 +54,6 @@ export default function Shipping() {
         state: state,
       };
       setPayment(newPayment);
-      console.log(newPayment);
       history.push("/checkout/confirm");
     }
   }
