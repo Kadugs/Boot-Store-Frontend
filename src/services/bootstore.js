@@ -52,7 +52,10 @@ function getProductsQuantity(array) {
   });
   return axios.get(`${BASE_URL}/products/quantity/codes${codesUrl}`);
 }
-
+function confirmPurchase(token) {
+  const config = headerConfig(token);
+  return axios.post(`${BASE_URL}/purchase`, [], config);
+}
 export {
   searchProduct,
   getProductsList,
@@ -62,4 +65,5 @@ export {
   getCart,
   deleteFromCart,
   getProductsQuantity,
+  confirmPurchase,
 };

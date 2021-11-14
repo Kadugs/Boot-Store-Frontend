@@ -11,14 +11,15 @@ import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import PaymentContext from "../../contexts/PaymentContext";
 import CartContext from "../../contexts/CartContext";
-import { useContext, useState, useEffect } from "react";
-
+import UserContext from "../../contexts/UserContext";
+import { useContext, useEffect } from "react";
+import { confirmPurchase } from "../../services/bootstore";
 export default function Confirm() {
   const { payment } = useContext(PaymentContext);
-  const { cart } = useContext(CartContext);
+  const { user } = useContext(UserContext);
+  const { cart, setCart } = useContext(CartContext);
   const history = useHistory();
   useEffect(() => {
-    console.log(cart);
     if (!payment?.method) {
       Swal.fire({
         icon: "error",
@@ -26,22 +27,44 @@ export default function Confirm() {
         confirmButtonText: "Ok",
       }).then(history.push("/cart"));
     }
-  }, [history, payment]);
+  }, [cart, history, payment]);
 
   function confirm() {
-    getProductsQuantity(cart).then((res) => {
-      let soldOut = cart.find(
-        (product, index) => product.quantity > res.data[index]
-      );
-      if (soldOut) {
-        Swal.fire({
-          icon: "error",
-          title: `Desculpe, mas não temos ${soldOut.name} no estoque na quantidade que você necessita :c
-          Por favor, tente novamente mais tarde`,
-          confirmButtonText: "Ok",
-        }).then(history.push("/cart"));
-      }
-    });
+    getProductsQuantity(cart)
+      .then((res) => {
+        let soldOut = cart.find(
+          (product, index) => product.quantity > res.data[index]
+        );
+        if (soldOut) {
+          Swal.fire({
+            icon: "error",
+            title: `Desculpe, mas não temos ${soldOut.name} no estoque na quantidade que você necessita :c
+            Por favor, tente novamente mais tarde`,
+            confirmButtonText: "Ok",
+          }).then(history.push("/cart"));
+        } else {
+          confirmPurchase(user.token)
+            .then(() => {
+              Swal.fire({
+                title: "Compra Concluída!",
+                confirmButtonText: "Ok",
+              });
+              history.push("/");
+              setCart([]);
+            })
+            .catch(() => {
+              Swal.fire({
+                icon: "error",
+                title: `Desculpe, tivemos um problema ao finalizar seu pedido, 
+              por favor, tente novamente`,
+                confirmButtonText: "Ok",
+              }).then(history.push("/cart"));
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   function cancel() {
     Swal.fire({
