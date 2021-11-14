@@ -1,5 +1,6 @@
 import GlobalStyle from "../styles/globalStyle.js";
 import Payment from "./Checkout/Payment";
+import Shipping from "./Checkout/Shipping";
 import { useState, useEffect } from "react";
 import UserContext from "../contexts/UserContext.js";
 import CartContext from "../contexts/CartContext.js";
@@ -43,6 +44,9 @@ export default function App() {
             <PaymentContext.Provider value={{ payment, setPayment }}>
               <Route exact path="/checkout/payment">
                 <Payment />
+              </Route>
+              <Route exact path="/checkout/shipping">
+                <Shipping />
               </Route>
             </PaymentContext.Provider>
             {/* <Redirect to="/" /> */}

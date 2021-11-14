@@ -7,7 +7,7 @@ import { getProductsQuantity } from "../../services/bootstore";
 import {
   ContainerCheckout,
   Method,
-  PaymentForm,
+  Form,
   Input,
   Label,
   Button,
@@ -51,7 +51,6 @@ export default function Payment() {
 
   function savePaymentForm(event) {
     event.preventDefault();
-    console.log(!!Number(creditCard));
     if (creditCard.length !== 16 || !Number(creditCard)) {
       Swal.fire({
         icon: "error",
@@ -89,7 +88,7 @@ export default function Payment() {
         </div>
       </Method>
       {isCreditCard ? (
-        <PaymentForm onSubmit={savePaymentForm}>
+        <Form onSubmit={savePaymentForm}>
           <span>Preencha os dados do Cartão</span>
           <Label>Nome do titular:</Label>
           <Input
@@ -109,7 +108,7 @@ export default function Payment() {
             }}
           />
           <Button type="submit">continuar</Button>
-        </PaymentForm>
+        </Form>
       ) : null}
     </ContainerCheckout>
   );

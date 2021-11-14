@@ -6,6 +6,13 @@ const ContainerCheckout = styled.div`
   align-items: center;
   width: 100vw;
   padding-top: 50px;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 `;
 const Method = styled.div`
   height: 100px;
@@ -33,7 +40,7 @@ const Method = styled.div`
   }
 `;
 
-const PaymentForm = styled.form`
+const Form = styled.form`
   padding-top: 20px;
   display: flex;
   flex-direction: column;
@@ -44,9 +51,11 @@ const PaymentForm = styled.form`
     margin-bottom: 30px;
     font-size: 20px;
   }
+  div {
+    width: 400px;
+  }
 `;
 const Input = styled.input`
-  width: 200px;
   border-radius: 6px;
   border: solid 1px gray;
   width: 400px;
@@ -54,12 +63,30 @@ const Input = styled.input`
   padding-left: 10px;
   height: 35px;
 `;
+const InputNumber = styled.input`
+  width: 58px;
+  height: 25px;
+  border-radius: 5px;
+  margin: 10px 20px;
+  border: solid 1px gray;
+  padding-left: 5px;
+`;
+
 const Label = styled.label`
   width: 400px;
   color: black;
   &::placeholder {
     color: black;
   }
+`;
+const ContainerSelect = styled.select`
+  width: 260px;
+  height: 25px;
+  border-radius: 5px;
+  margin: 10px 20px;
+  border: solid 1px gray;
+  padding-left: 5px;
+  background-color: #fff;
 `;
 const Button = styled.button`
   background-color: #f80032;
@@ -79,4 +106,13 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
-export { ContainerCheckout, Method, PaymentForm, Input, Label, Button };
+export {
+  ContainerCheckout,
+  Method,
+  Form,
+  Input,
+  InputNumber,
+  Label,
+  Button,
+  ContainerSelect,
+};
