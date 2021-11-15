@@ -4,6 +4,8 @@ import { getProductsList } from "../../services/bootstore.js";
 import { getRatings } from "../../services/bootstore.js";
 import Product from "./Product.js";
 import Header from "../Header/Header";
+import Swal from "sweetalert2";
+
 export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [ratings, setRatings] = useState([]);
@@ -13,13 +15,20 @@ export default function ProductsList() {
   useEffect(() => {
     getProductsList(orderBy)
       .then((response) => setProducts(response.data))
-      .catch((error) => alert("Ocorreu algum erro! Tente novamente"));
+      .catch((error) =>
+        Swal.fire({
+          text: "Ocorreu algum erro! Tente novamente.",
+        })
+      );
   }, [orderBy]);
-
   useEffect(() => {
     getRatings()
       .then((response) => setRatings(response.data))
-      .catch((error) => alert("Ocorreu algum erro! Tente novamente"));
+      .catch((error) =>
+        Swal.fire({
+          text: "Ocorreu algum erro! Tente novamente.",
+        })
+      );
   }, []);
 
   return (

@@ -20,6 +20,9 @@ function getProductsList(order) {
 function getRatings() {
   return axios.get(`${BASE_URL}/ratings`);
 }
+function getProductRating(code) {
+  return axios.get(`${BASE_URL}/ratings/${code}`);
+}
 
 function getProductDetails(code) {
   return axios.get(`${BASE_URL}/product/${code}`);
@@ -41,13 +44,20 @@ function getCart(token) {
 
   return axios.get(`${BASE_URL}/cart`, config);
 }
+function getPurchaseProducts(token) {
+  const config = headerConfig(token);
+
+  return axios.get(`${BASE_URL}/purchase`, config);
+}
 
 export {
   searchProduct,
   getProductsList,
   getRatings,
+  getProductRating,
   getProductDetails,
   addToCart,
   getCart,
   deleteFromCart,
+  getPurchaseProducts,
 };
