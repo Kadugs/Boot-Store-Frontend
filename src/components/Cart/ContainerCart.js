@@ -17,6 +17,7 @@ const CartProducts = styled.table`
   min-width: 500px;
   width: 60vw;
   margin: 30px 0 100px 0;
+
   th {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 5px;

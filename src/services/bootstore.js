@@ -49,6 +49,11 @@ function getPurchaseProducts(token) {
 
   return axios.get(`${BASE_URL}/purchase`, config);
 }
+function rateProduct(token, body) {
+  const config = headerConfig(token);
+
+  return axios.post(`${BASE_URL}/ratings`, body, config);
+}
 
 export {
   searchProduct,
@@ -60,4 +65,5 @@ export {
   getCart,
   deleteFromCart,
   getPurchaseProducts,
+  rateProduct,
 };

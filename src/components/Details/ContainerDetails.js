@@ -116,7 +116,21 @@ const ContainerRatings = styled.div`
     margin-left: 10px;
   }
 `;
-
+const Rating = styled.div`
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  & > button {
+    margin-left: 10px;
+    border-radius: 6px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    width: 120px;
+  }
+  & > button:hover {
+    cursor: pointer;
+  }
+`;
 export {
   ContainerDetails,
   MainDetails,
@@ -129,4 +143,5 @@ export {
   ItemQuantity,
   Button,
   ContainerRatings,
+  Rating,
 };
