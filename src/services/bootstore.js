@@ -56,6 +56,10 @@ function confirmPurchase(token) {
   const config = headerConfig(token);
   return axios.post(`${BASE_URL}/purchase`, [], config);
 }
+
+function signUp (body) {
+  return axios.post(`${BASE_URL}/sign-up`, body);
+}
 export {
   searchProduct,
   getProductsList,
@@ -63,6 +67,7 @@ export {
   getProductDetails,
   addToCart,
   getCart,
+  signUp,
   deleteFromCart,
   getProductsQuantity,
   confirmPurchase,
