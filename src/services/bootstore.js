@@ -45,9 +45,9 @@ function getProductsQuantity(array) {
   let codesUrl = `?`;
   array.forEach((item, index) => {
     if (index === array.length - 1) {
-      codesUrl += `code=${item.code}`;
+      codesUrl += `codes=${item.code}`;
     } else {
-      codesUrl += `code=${item.code}&`;
+      codesUrl += `codes=${item.code}&`;
     }
   });
   return axios.get(`${BASE_URL}/products/quantity/codes${codesUrl}`);

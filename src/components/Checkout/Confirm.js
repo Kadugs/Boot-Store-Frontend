@@ -63,7 +63,12 @@ export default function Confirm() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: `Desculpe, tivemos um problema ao finalizar seu pedido, 
+              por favor, tente novamente`,
+          confirmButtonText: "Ok",
+        }).then(history.push("/cart"));
       });
   }
   function cancel() {
