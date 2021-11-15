@@ -7,6 +7,7 @@ import Header from "./Header/Header.js";
 import ProductsList from "./ProductsList/ProductsList.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Details from "./Details/Details";
+import SignUp from "./SignUp/SignUp.js";
 import Cart from "./Cart/Cart";
 import { getCart, getPurchaseProducts } from "../services/bootstore.js";
 import Swal from "sweetalert2";
@@ -47,6 +48,10 @@ export default function App() {
                 <Header />
                 <Details />
               </Route>
+            <Route path="/sign-up" exact>
+              <Header />
+              <SignUp />
+            </Route>
               <Route exact path="/cart">
                 <Header />
                 <Cart />
