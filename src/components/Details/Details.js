@@ -126,7 +126,6 @@ export default function Details() {
       value: starValue,
       code,
     };
-    console.log(body);
     rateProduct(user.token, body)
       .then(() => {
         getPurchaseProducts(user.token)
