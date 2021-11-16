@@ -16,7 +16,7 @@ export default function Form () {
 
     async function logIn (event) {
         event.preventDefault();
-        setError(0)
+        setError(0);
         setLoading(true);
 
         const body = {
@@ -28,10 +28,12 @@ export default function Form () {
             const response = await signIn(body);
             const user = response.data;
 
-            for (let i = 0; i < cart.length; i++) {
-                const body = {...cart[i]};
-
-                await addToCart(user.token, body);
+            if (cart) {
+                for (let i = 0; i < cart.length; i++) {
+                    const body = {...cart[i]};
+    
+                    await addToCart(user.token, body);
+                }
             }
 
             setUser({

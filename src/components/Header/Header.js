@@ -2,18 +2,23 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import UserContext from '../../contexts/UserContext.js';
+import CartContext from '../../contexts/CartContext.js';
 import Cart from './Cart.js';
 import Search from './Search.js';
 import { FaRegUserCircle as UserIcon } from 'react-icons/fa';
 import { IoLogOutOutline as SignOutIcon } from 'react-icons/io5';
 
 export default function Header () {
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
+    const { setCart } = useContext(CartContext);
     const history = useHistory();
 
     function signOut (event) {
         event.stopPropagation();
         localStorage.removeItem("user");
+        localStorage.removeItem("cart");
+        setUser(undefined);
+        setCart(undefined);
         return history.push("/sign-in");
     }
 
