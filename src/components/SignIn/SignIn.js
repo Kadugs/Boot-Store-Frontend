@@ -1,10 +1,18 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useContext } from "react";
+import UserContext from "../../contexts/UserContext.js";
 import { Link, useHistory } from "react-router-dom";
 import { FaRegUser as UserIcon } from "react-icons/fa";
 import Form from "./Form.js";
 
 export default function SignIn () {
+    const { user } = useContext(UserContext);
+    const history = useHistory();
+    
+    useEffect(() => {
+        if (user) return history.push("/");
+    });
+
     return (
         <Container>
             <PageTitle>
