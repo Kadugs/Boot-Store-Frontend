@@ -4,6 +4,10 @@ const ContainerCart = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 100px;
+  .checkout-button {
+    text-decoration: none;
+    width: 80%;
+  }
 `;
 const MainCart = styled.div`
   display: flex;
@@ -76,6 +80,7 @@ const CheckoutMenu = styled.div`
   margin-left: 20px;
   border-radius: 5px;
   box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.1);
+  overflow: auto;
 `;
 const Total = styled.div`
   width: 100%;
@@ -91,7 +96,6 @@ const CheckoutButton = styled.div`
   background-color: #f80032;
   color: white;
   border-radius: 5px;
-  width: 95%;
   height: 50px;
   font-weight: bold;
   font-size: 20px;
