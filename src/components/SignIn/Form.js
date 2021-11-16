@@ -2,10 +2,12 @@ import styled from "styled-components";
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UserContext from "../../contexts/UserContext.js";
-import { signIn } from "../../services/bootstore.js";
+import CartContext from "../../contexts/CartContext.js";
+import { signIn, getCart, addToCart } from "../../services/bootstore.js";
 
 export default function Form () {
     const { setUser } = useContext(UserContext);
+    const { cart, setCart } = useContext(CartContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -25,11 +27,26 @@ export default function Form () {
         try {
             const response = await signIn(body);
             const user = response.data;
-            setUser(user);
+
+            for (let i = 0; i < cart.length; i++) {
+                const body = {...cart[i]};
+
+                await addToCart(user.token, body);
+            }
+
+            setUser({
+                name: user.name,
+                token: user.token,
+            });
             localStorage.setItem("user", JSON.stringify(user));
+
+            const response2 = await getCart(user.token);
+            const usersCart = response2.data;
+            setCart(usersCart);
+
             return history.push("/");
         } catch (error) {
-            const errorStatus = error.response.status;
+            const errorStatus = error.response?.status;
             setError(errorStatus);
             return setLoading(false);
         }
