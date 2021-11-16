@@ -54,9 +54,28 @@ function rateProduct(token, body) {
 
   return axios.post(`${BASE_URL}/ratings`, body, config);
 }
+function getProductsQuantity(array) {
+  let codesUrl = `?`;
+  array.forEach((item, index) => {
+    if (index === array.length - 1) {
+      codesUrl += `codes=${item.code}`;
+    } else {
+      codesUrl += `codes=${item.code}&`;
+    }
+  });
+  return axios.get(`${BASE_URL}/products/quantity/codes${codesUrl}`);
+}
+function confirmPurchase(token) {
+  const config = headerConfig(token);
+  return axios.post(`${BASE_URL}/purchase`, [], config);
+}
 
-function signUp (body) {
+function signUp(body) {
   return axios.post(`${BASE_URL}/sign-up`, body);
+}
+
+function signIn(body) {
+  return axios.post(`${BASE_URL}/sign-in`, body);
 }
 
 export {
@@ -67,8 +86,11 @@ export {
   getProductDetails,
   addToCart,
   getCart,
-  signUp,
   deleteFromCart,
   getPurchaseProducts,
   rateProduct,
+  signUp,
+  signIn,
+  getProductsQuantity,
+  confirmPurchase,
 };

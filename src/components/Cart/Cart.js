@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import CartContext from "../../contexts/CartContext";
 import PurchaseContext from "../../contexts/PurchaseContext";
 import {
@@ -39,27 +40,35 @@ export default function Cart() {
       <MainCart>
         <Title>Meu carrinho</Title>
         <CartProducts>
-          <tr>
-            <th className="product-th">produto</th>
-            <th className="qtd-th">qtd.</th>
-            <th className="price-th">valor</th>
-            <th></th>
-          </tr>
-          {cart.map((item, index) => (
-            <ItemCart key={item.code} item={item} index={index} />
-          ))}
+          <thead>
+            <tr>
+              <th className="product-th">produto</th>
+              <th className="qtd-th">qtd.</th>
+              <th className="price-th">valor</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart.map((item, index) => (
+              <ItemCart key={item.code} item={item} index={index} />
+            ))}
+          </tbody>
         </CartProducts>
 
         <Title>Meus produtos</Title>
         <CartProducts>
-          <tr>
-            <th className="product-th">produto</th>
-            <th className="qtd-th">qtd.</th>
-            <th>avaliação</th>
-          </tr>
-          {purchase.map((item, index) => (
-            <PurchaseItem key={item.code} item={item} index={index} />
-          ))}
+          <thead>
+            <tr>
+              <th className="product-th">produto</th>
+              <th className="qtd-th">qtd.</th>
+              <th>avaliação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {purchase.map((item, index) => (
+              <PurchaseItem key={index} item={item} index={index} />
+            ))}
+          </tbody>
         </CartProducts>
       </MainCart>
       <CheckoutMenu>
@@ -73,7 +82,9 @@ export default function Cart() {
             })}
           </span>
         </Total>
-        <CheckoutButton>continuar</CheckoutButton>
+        <Link to="/checkout/payment" className="checkout-button">
+          <CheckoutButton>continuar</CheckoutButton>
+        </Link>
       </CheckoutMenu>
     </ContainerCart>
   );
