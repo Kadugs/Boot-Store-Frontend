@@ -20,7 +20,8 @@ const Title = styled.span`
 const CartProducts = styled.table`
   min-width: 500px;
   width: 60vw;
-  margin-top: 30px;
+  margin: 30px 0 100px 0;
+
   th {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 5px;
@@ -49,7 +50,8 @@ const CartProducts = styled.table`
   }
   .qtd-td,
   .price-td,
-  .delete-td {
+  .delete-td,
+  .rate-td {
     text-align: center;
     vertical-align: middle;
     user-select: none;

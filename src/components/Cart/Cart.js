@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import CartContext from "../../contexts/CartContext";
+import PurchaseContext from "../../contexts/PurchaseContext";
 import {
   ContainerCart,
   MainCart,
@@ -12,9 +13,12 @@ import {
   Empty,
 } from "./ContainerCart";
 import ItemCart from "./ItemCart";
+import PurchaseItem from "./PurchaseItem";
+
 export default function Cart() {
   const [total, setTotal] = useState(0);
   const { cart } = useContext(CartContext);
+  const { purchase } = useContext(PurchaseContext);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -36,15 +40,35 @@ export default function Cart() {
       <MainCart>
         <Title>Meu carrinho</Title>
         <CartProducts>
-          <tr>
-            <th className="product-th">produto</th>
-            <th className="qtd-th">qtd.</th>
-            <th className="price-th">valor</th>
-            <th></th>
-          </tr>
-          {cart.map((item, index) => (
-            <ItemCart key={item.code} item={item} index={index} />
-          ))}
+          <thead>
+            <tr>
+              <th className="product-th">produto</th>
+              <th className="qtd-th">qtd.</th>
+              <th className="price-th">valor</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart.map((item, index) => (
+              <ItemCart key={item.code} item={item} index={index} />
+            ))}
+          </tbody>
+        </CartProducts>
+
+        <Title>Meus produtos</Title>
+        <CartProducts>
+          <thead>
+            <tr>
+              <th className="product-th">produto</th>
+              <th className="qtd-th">qtd.</th>
+              <th>avaliação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {purchase.map((item, index) => (
+              <PurchaseItem key={index} item={item} index={index} />
+            ))}
+          </tbody>
         </CartProducts>
       </MainCart>
       <CheckoutMenu>

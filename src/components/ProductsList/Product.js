@@ -59,7 +59,7 @@ export default function Product({ product, rating, loading, setLoading }) {
           starDimension="15px"
           starSpacing="1px"
         />
-        <span>{rating?.quantity || 0} avaliações</span>
+        <span> ({rating?.quantity || 0})</span>
       </Rating>
       <Price>
         {Number(product?.value).toLocaleString("pt-BR", {

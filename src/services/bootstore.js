@@ -20,6 +20,9 @@ function getProductsList(order) {
 function getRatings() {
   return axios.get(`${BASE_URL}/ratings`);
 }
+function getProductRating(code) {
+  return axios.get(`${BASE_URL}/ratings/${code}`);
+}
 
 function getProductDetails(code) {
   return axios.get(`${BASE_URL}/product/${code}`);
@@ -41,6 +44,16 @@ function getCart(token) {
 
   return axios.get(`${BASE_URL}/cart`, config);
 }
+function getPurchaseProducts(token) {
+  const config = headerConfig(token);
+
+  return axios.get(`${BASE_URL}/purchase`, config);
+}
+function rateProduct(token, body) {
+  const config = headerConfig(token);
+
+  return axios.post(`${BASE_URL}/ratings`, body, config);
+}
 function getProductsQuantity(array) {
   let codesUrl = `?`;
   array.forEach((item, index) => {
@@ -57,11 +70,11 @@ function confirmPurchase(token) {
   return axios.post(`${BASE_URL}/purchase`, [], config);
 }
 
-function signUp (body) {
+function signUp(body) {
   return axios.post(`${BASE_URL}/sign-up`, body);
 }
 
-function signIn (body) {
+function signIn(body) {
   return axios.post(`${BASE_URL}/sign-in`, body);
 }
 
@@ -69,11 +82,14 @@ export {
   searchProduct,
   getProductsList,
   getRatings,
+  getProductRating,
   getProductDetails,
   addToCart,
   getCart,
-  signUp,
   deleteFromCart,
+  getPurchaseProducts,
+  rateProduct,
+  signUp,
   signIn,
   getProductsQuantity,
   confirmPurchase,

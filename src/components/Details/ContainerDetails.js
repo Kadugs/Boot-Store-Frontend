@@ -19,7 +19,7 @@ const MainDetails = styled.div`
   width: 900px;
   min-height: 600px;
   padding: 40px;
-  div {
+  & > div {
     margin-left: 30px;
     margin-top: 20px;
     display: flex;
@@ -63,22 +63,25 @@ const Brand = styled.span`
   border-bottom: solid 1px rgba(0, 0, 0, 0.1);
 `;
 const CartButtonArea = styled.div`
-  display: flex !important;
-  height: 100px !important;
-  flex-direction: row !important;
+  display: flex;
+  height: 100px;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 0;
-  span {
+  margin: 50px 10px 0 0;
+  user-select: none;
+  & > span {
     font-size: 12px;
+    margin-left: 10px;
   }
 `;
 const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-right: 10px;
   padding: 10px;
+  margin-bottom: 20px;
   border-radius: 5px;
   background-color: ${({ added }) => (added ? "#4CBB17" : "#f80032")};
   color: white;
@@ -96,13 +99,38 @@ const Button = styled.button`
   }
 `;
 const ItemQuantity = styled.div`
-  display: flex !important;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 !important;
+  margin: 0;
+  & .arrows:hover {
+    cursor: pointer;
+  }
 `;
-
+const ContainerRatings = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & > span {
+    margin-left: 10px;
+  }
+`;
+const Rating = styled.div`
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  & > button {
+    margin-left: 10px;
+    border-radius: 6px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    width: 120px;
+  }
+  & > button:hover {
+    cursor: pointer;
+  }
+`;
 export {
   ContainerDetails,
   MainDetails,
@@ -114,4 +142,6 @@ export {
   CartButtonArea,
   ItemQuantity,
   Button,
+  ContainerRatings,
+  Rating,
 };

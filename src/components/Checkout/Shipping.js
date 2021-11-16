@@ -1,6 +1,5 @@
 import {
   ContainerCheckout,
-  Method,
   Form,
   Input,
   InputNumber,
