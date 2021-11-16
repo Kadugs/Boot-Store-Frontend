@@ -41,6 +41,21 @@ function getCart(token) {
 
   return axios.get(`${BASE_URL}/cart`, config);
 }
+function getProductsQuantity(array) {
+  let codesUrl = `?`;
+  array.forEach((item, index) => {
+    if (index === array.length - 1) {
+      codesUrl += `codes=${item.code}`;
+    } else {
+      codesUrl += `codes=${item.code}&`;
+    }
+  });
+  return axios.get(`${BASE_URL}/products/quantity/codes${codesUrl}`);
+}
+function confirmPurchase(token) {
+  const config = headerConfig(token);
+  return axios.post(`${BASE_URL}/purchase`, [], config);
+}
 
 function signUp (body) {
   return axios.post(`${BASE_URL}/sign-up`, body);
@@ -60,4 +75,6 @@ export {
   signUp,
   deleteFromCart,
   signIn,
+  getProductsQuantity,
+  confirmPurchase,
 };

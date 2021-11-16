@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../../contexts/UserContext.js";
 import CartContext from "../../contexts/CartContext.js";
-import { useParams, Link, useHistory, Redirect } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { getProductDetails, addToCart } from "../../services/bootstore";
 import {
   IoCartOutline,
@@ -42,7 +42,6 @@ export default function Details() {
         setHaveError(true);
         console.error(err);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
   function addProductToCart() {

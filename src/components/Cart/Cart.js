@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import CartContext from "../../contexts/CartContext";
 import {
   ContainerCart,
@@ -57,7 +58,9 @@ export default function Cart() {
             })}
           </span>
         </Total>
-        <CheckoutButton>continuar</CheckoutButton>
+        <Link to="/checkout/payment" className="checkout-button">
+          <CheckoutButton>continuar</CheckoutButton>
+        </Link>
       </CheckoutMenu>
     </ContainerCart>
   );
