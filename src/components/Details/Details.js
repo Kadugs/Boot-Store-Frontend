@@ -74,6 +74,21 @@ export default function Details() {
     getProductDetails(Number(code))
       .then((res) => {
         setProductInfos(res.data);
+        getProductRating(code)
+        .then((res) => {
+         setProductRating(res.data);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Não conseguimos obter algumas informações do produto :c",
+            confirmButtonText: "Ok",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              history.push("/");
+            }
+          });
+        });
       })
       .catch((err) => {
         setHaveError(true);
@@ -86,21 +101,6 @@ export default function Details() {
           }
         });
       });
-    // getProductRating(code)
-    //   .then((res) => {
-    //     // setProductRating(res.data);
-    //   })
-    //   .catch((err) => {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Não conseguimos obter algumas informações do produto :c",
-    //       confirmButtonText: "Ok",
-    //     }).then((result) => {
-    //       if (result.isConfirmed) {
-    //         history.push("/");
-    //       }
-    //     });
-    //   });
   }, [code, history, productRating]);
   function addProductToCart() {
     setLoading(true);
@@ -172,7 +172,7 @@ export default function Details() {
           <Title>{productInfos.name}</Title>
           <ContainerRatings>
             <StarRatings
-              rating={productRating?.average}
+              rating={productRating?.average ? productRating.average : 0}
               starRatedColor="rgb(247, 210, 0)"
               name="rating"
               starDimension="20px"
