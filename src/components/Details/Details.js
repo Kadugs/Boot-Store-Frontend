@@ -71,21 +71,29 @@ export default function Details() {
     },
   };
   useEffect(() => {
-    getProductDetails(code)
+    getProductDetails(Number(code))
       .then((res) => {
         setProductInfos(res.data);
+        getProductRating(code)
+        .then((res) => {
+         setProductRating(res.data);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Não conseguimos obter algumas informações do produto :c",
+            confirmButtonText: "Ok",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              history.push("/");
+            }
+          });
+        });
       })
       .catch((err) => {
         setHaveError(true);
-      });
-    getProductRating(code)
-      .then((res) => {
-        setProductRating(res.data);
-      })
-      .catch((err) => {
         Swal.fire({
-          icon: "error",
-          title: "Não conseguimos obter algumas informações do produto :c",
+          title: "Produto não encontrado :(",
           confirmButtonText: "Ok",
         }).then((result) => {
           if (result.isConfirmed) {
@@ -126,9 +134,9 @@ export default function Details() {
       value: starValue,
       code,
     };
-    rateProduct(user.token, body)
+    rateProduct(user?.token, body)
       .then(() => {
-        getPurchaseProducts(user.token)
+        getPurchaseProducts(user?.token)
           .then((response) => setPurchase(response.data))
           .catch((error) =>
             Swal.fire({
@@ -164,7 +172,7 @@ export default function Details() {
           <Title>{productInfos.name}</Title>
           <ContainerRatings>
             <StarRatings
-              rating={productRating?.average}
+              rating={productRating?.average ? productRating.average : 0}
               starRatedColor="rgb(247, 210, 0)"
               name="rating"
               starDimension="20px"
