@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://bootstore-cl.herokuapp.com/";
+const BASE_URL = "https://bootstore-cl.herokuapp.com";
 
 function headerConfig(token) {
   return {
