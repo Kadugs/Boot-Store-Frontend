@@ -134,9 +134,9 @@ export default function Details() {
       value: starValue,
       code,
     };
-    rateProduct(user.token, body)
+    rateProduct(user?.token, body)
       .then(() => {
-        getPurchaseProducts(user.token)
+        getPurchaseProducts(user?.token)
           .then((response) => setPurchase(response.data))
           .catch((error) =>
             Swal.fire({
