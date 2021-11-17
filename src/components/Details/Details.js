@@ -71,21 +71,14 @@ export default function Details() {
     },
   };
   useEffect(() => {
-    getProductDetails(code)
+    getProductDetails(Number(code))
       .then((res) => {
         setProductInfos(res.data);
       })
       .catch((err) => {
         setHaveError(true);
-      });
-    getProductRating(code)
-      .then((res) => {
-        setProductRating(res.data);
-      })
-      .catch((err) => {
         Swal.fire({
-          icon: "error",
-          title: "Não conseguimos obter algumas informações do produto :c",
+          title: "Produto não encontrado :(",
           confirmButtonText: "Ok",
         }).then((result) => {
           if (result.isConfirmed) {
@@ -93,6 +86,21 @@ export default function Details() {
           }
         });
       });
+    // getProductRating(code)
+    //   .then((res) => {
+    //     // setProductRating(res.data);
+    //   })
+    //   .catch((err) => {
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "Não conseguimos obter algumas informações do produto :c",
+    //       confirmButtonText: "Ok",
+    //     }).then((result) => {
+    //       if (result.isConfirmed) {
+    //         history.push("/");
+    //       }
+    //     });
+    //   });
   }, [code, history, productRating]);
   function addProductToCart() {
     setLoading(true);
