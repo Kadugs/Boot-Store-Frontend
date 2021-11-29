@@ -1,5 +1,8 @@
 import axios from "axios";
-const BASE_URL = "https://bootstore-cl.herokuapp.com";
+const BASE_URL =
+  process.env.REACT_APP_SERVER === "local"
+    ? "http://localhost:4000"
+    : "https://bootstore-cl.herokuapp.com";
 
 function headerConfig(token) {
   return {
