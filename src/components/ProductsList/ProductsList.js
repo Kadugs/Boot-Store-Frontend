@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [ratings, setRatings] = useState([]);
-  const [orderBy, setOrderBy] = useState("visits");
+  const orderBy = "visits";
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
